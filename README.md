@@ -1,2 +1,1 @@
 # TousAntiCovid
-Installer puppeteer
