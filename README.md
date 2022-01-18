@@ -10,4 +10,5 @@ js packages :
   express-validator               Set of express.js middlewares that wraps validator.js validator and sanitizer functions.
   mongoose                        Mongodb object modeling for node.js
   bcrypt                          Hash passwords
+  jsonwebtoken                    Token
 ```
