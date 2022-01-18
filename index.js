@@ -1,119 +1,95 @@
 const express = require('express')
-const path = require('path')
+const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const User = require('./model/user')
+const User = require('./model/user') 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const JWT_SECRET = 'sdjkfh8923yhjdksbfma@#*(&@*!^#&@bhjb2qiuhesdbhjdsfg839ujkdhfjk'
+const JWT_SECRET = 'zekljazifjziogjaioeh8O34U_hhozreuhuhu_8_çt_7T8gf'
 
-mongoose.connect('mongodb://localhost:27017/login-app-db', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	useCreateIndex: true
+// mongodb+srv://<username>:<password>@data.tr5qe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+const mongodb = 'mongodb+srv://admin:admin123@data.tr5qe.mongodb.net/covid_data?retryWrites=true&w=majority'
+mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
+    //.then((result) => app.listen(3000))
+    .then((result) => console.log("connected to database"))
+    .catch((err) => console.log(err))
+
+
+app.use('/', express.static(__dirname + '/front'))
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/front/html/index.html')
 })
 
-const app = express()
-app.use('/', express.static(path.join(__dirname, 'static')))
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/front/html/login.html')
+})
+
+app.get('/Change', (req, res) => {
+    res.sendFile(__dirname + '/front/html/Change.html')
+})
+
 app.use(bodyParser.json())
 
-app.post('/api/change-password', async (req, res) => {
-	const { token, newpassword: plainTextPassword } = req.body
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body
+    const user = await User.findOne({ username }).lean()
 
-	if (!plainTextPassword || typeof plainTextPassword !== 'string') {
-		return res.json({ status: 'error', error: 'Invalid password' })
-	}
+    if(!user){
+        return res.json({ status: 'error', error: 'Invalid username/password'})
+    }
 
-	if (plainTextPassword.length < 5) {
-		return res.json({
-			status: 'error',
-			error: 'Password too small. Should be atleast 6 characters'
-		})
-	}
+    if(await bcrypt.compare(password, user.password)){
 
-	try {
-		const user = jwt.verify(token, JWT_SECRET)
+        const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET)
+        return res.json({ status: 'ok', data: token})
+    }
 
-		const _id = user.id
-
-		const password = await bcrypt.hash(plainTextPassword, 10)
-
-		await User.updateOne(
-			{ _id },
-			{
-				$set: { password }
-			}
-		)
-		res.json({ status: 'ok' })
-	} catch (error) {
-		console.log(error)
-		res.json({ status: 'error', error: ';))' })
-	}
+    res.json({ status: 'error', error: 'Invalid username/password' })
 })
 
-app.post('/api/login', async (req, res) => {
-	const { username, password } = req.body
-	const user = await User.findOne({ username }).lean()
+app.post('/register', async (req, res) => {
+    const { username, password: plainTextPassword } = req.body
 
-	if (!user) {
-		return res.json({ status: 'error', error: 'Invalid username/password' })
-	}
+    if(!username || typeof username != 'string'){
+        return res.json({ status: 'error', error: 'Invalid username' })
+    }
+    if(!plainTextPassword || typeof plainTextPassword != 'string'){
+        return res.json({ status: 'error', error: 'Invalid password' })
+    }
 
-	if (await bcrypt.compare(password, user.password)) {
-		// the username, password combination is successful
+    if(plainTextPassword.length < 6){
+        return res.json({ status: 'error', error: 'Password too small. Should be atleast 6 characters' })
+    }
 
-		const token = jwt.sign(
-			{
-				id: user._id,
-				username: user.username
-			},
-			JWT_SECRET
-		)
+    const password = await bcrypt.hash(plainTextPassword, 10)
 
-		return res.json({ status: 'ok', data: token })
-	}
+    try {
+        const response = await User.create({
+            username,
+            password
+        })
+        console.log('User created successfully: ', response)
+    } catch(error){
+        if(error.code === 11000){
+            return res.json({ status: 'error', error: 'Username already used'})
+        }
+        throw error
+    }
 
-	res.json({ status: 'error', error: 'Invalid username/password' })
+    res.json({ status: 'ok' })
 })
 
-app.post('/api/register', async (req, res) => {
-	const { username, password: plainTextPassword } = req.body
+app.post('/Change', (req, res) => {
 
-	if (!username || typeof username !== 'string') {
-		return res.json({ status: 'error', error: 'Invalid username' })
-	}
-
-	if (!plainTextPassword || typeof plainTextPassword !== 'string') {
-		return res.json({ status: 'error', error: 'Invalid password' })
-	}
-
-	if (plainTextPassword.length < 5) {
-		return res.json({
-			status: 'error',
-			error: 'Password too small. Should be atleast 6 characters'
-		})
-	}
-
-	const password = await bcrypt.hash(plainTextPassword, 10)
-
-	try {
-		const response = await User.create({
-			username,
-			password
-		})
-		console.log('User created successfully: ', response)
-	} catch (error) {
-		if (error.code === 11000) {
-			// duplicate key
-			return res.json({ status: 'error', error: 'Username already in use' })
-		}
-		throw error
-	}
-
-	res.json({ status: 'ok' })
+    const {token} = req.body
+    const user = jwt.verify(token, JWT_SECRET) 
+    
+    console.log(user)
+    res.json({ status : 'ok'})
 })
 
 app.listen(3000, () => {
-	console.log('Server up at 3000')
+    console.log('Server up at 3000')
 })
