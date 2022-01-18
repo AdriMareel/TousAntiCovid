@@ -148,3 +148,5 @@ app.post('/register', async (req, res) => {
 app.listen(3000, () => {
     console.log('Server up at 3000')
 })
+
+ToQRCode("1019238923758457")
