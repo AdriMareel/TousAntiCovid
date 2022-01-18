@@ -22,7 +22,7 @@ mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
 app.use('/', express.static(__dirname + '/front'))
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/front/html/index.html')
+    res.sendFile(__dirname + '/front/html/home.html')
 })
 
 app.get('/login', (req, res) => {
