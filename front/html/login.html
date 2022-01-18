@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-
         <title>Tous covidés</title>
     </head>
     <body>
-        <h1>Login</h1>
-        <form id="logForm">
-            <input type="text" autocomplete="off" id="username" placeholder="Username"/>
-            <input type="password" autocomplete="off" id="password" placeholder="Password"/>
-            <input type="submit" value="Submit Form"/>
-        </form>
-
-
-        
-        <script src="../js/main.js"></script>
+        <form action="/users/login" method="post">
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Enter Email"/>
+        </div>
+        <div>
+            <label for"password">Password</label>
+            <input type="password" name="password" placeholder="Enter Password"/>
+        </div>
+        <button type="submit">Login</button>
     </body>
 </html>
