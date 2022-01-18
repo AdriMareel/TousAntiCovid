@@ -33,6 +33,10 @@ app.get('/change-password', (req, res) => {
     res.sendFile(__dirname + '/front/html/change-password.html')
 })
 
+app.get('/pagePerso', (req, res) => {
+    res.sendFile(__dirname + '/front/html/pagePerso.html')
+})
+
 app.use(bodyParser.json())
 
 app.post('/change-password', async (req, res) => {
