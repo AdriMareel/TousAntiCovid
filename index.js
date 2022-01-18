@@ -47,7 +47,6 @@ app.post('/change-password', async (req, res) => {
     catch(error){
         res.json({ status: 'error', error: '(:'})
     }
-    res.json({ status: 'ok' })
 })
 
 // Login
