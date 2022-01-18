@@ -26,7 +26,26 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/front/html/login.html')
 })
 
+app.get('/change-password', (req, res) => {
+    res.sendFile(__dirname + '/front/html/change-password.html')
+})
+
 app.use(bodyParser.json())
+
+app.post('/change-password', async (req, res) => {
+    const { token, newpassword: plainTextPassword } = req.body
+    try{
+        const user = jwt.verify(token, JWT_SECRET)
+        const _id = user.id
+        const password = await bcrypt.hash(plainTextPassword, 10)
+        await User.updateOne({ _id }, { $set: { password }})
+        res.json({ status: 'ok' })
+    }
+    catch(error){
+        res.json({ status: 'error', error: '(:'})
+    }
+    res.json({ status: 'ok' })
+})
 
 // Login
 app.post('/login', async (req, res) => {
@@ -52,6 +71,8 @@ app.post('/login', async (req, res) => {
         }, 
         JWT_SECRET
         )
+
+        // User
         return res.json({ 
             status: 'ok', 
             data: token
@@ -63,6 +84,7 @@ app.post('/login', async (req, res) => {
 
 // Register
 app.post('/register', async (req, res) => {
+
     // Get user input
     const { username, password: plainTextPassword } = req.body
 
@@ -96,6 +118,20 @@ app.post('/register', async (req, res) => {
             password
         })
         console.log('User created successfully: ', response)
+
+        // Create token
+        const token = jwt.sign({ 
+            id: response._id, 
+            username: response.username 
+        }, 
+        JWT_SECRET
+        )
+
+        res.json({ 
+            status: 'ok',
+            data: token
+        })
+
     } catch(error){
         if(error.code === 11000){
             return res.json({ 
@@ -105,8 +141,6 @@ app.post('/register', async (req, res) => {
         }
         throw error
     }
-
-    res.json({ status: 'ok' })
 })
 
 app.listen(3000, () => {
