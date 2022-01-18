@@ -1,10 +1,41 @@
 const mongoose = require('mongoose')
 const UserSchema = new mongoose.Schema(
     {
-        //infos
-        username: { type: String, required: true, unique: true },
-        password: { type: String, required: true },
-        token:    { type: String },
+        // informations utilisateur
+        nCarteVitale: { type: String, required: true, unique: true },
+        password:     { type: String, required: true },
+        nom:          { type: String, required: true },
+        prenom:       { type: String, required: true },
+        dNaissance:   { type: String, required: true },
+
+        // à ajouter : niveau d'autorisation
+        /*
+        nivAutorisation: { type: Number ? required: true }
+            1 : Utilisateur lambda
+            2 : Professionnel de santé
+            3 : Gouvernement
+            4 : admin ?
+        */
+
+        // à ajouter : vaccins
+        
+        vaccins:      [{
+            numero:   { type: Number },
+            name:     { type: String },
+            date:     { type: String },
+            proSante: { type: String }
+        }],
+        
+
+        // à ajouter : tests (pcr, antigénique)
+        /*
+        tests:        [{
+            numero:   { type: Number },
+            typeTest: { type: String },
+            date:     { type: String }
+        }]
+        */
+        token:        { type: String },
     }, 
     { collection: 'users' }
 )

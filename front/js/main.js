@@ -3,8 +3,11 @@ if(regForm) regForm.addEventListener('submit', registerUser)
 
 async function registerUser(event){
     event.preventDefault()
-    const username = document.getElementById('username').value
+    const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
+    const nom = document.getElementById('nom').value
+    const prenom = document.getElementById('prenom').value
+    const dNaissance = document.getElementById('dNaissance').value
 
     const result = await fetch('/register', {
         method: 'POST',
@@ -12,7 +15,7 @@ async function registerUser(event){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username, password
+            nCarteVitale, password, nom, prenom, dNaissance
         })
     }).then((res) => res.json())
 
@@ -30,7 +33,7 @@ if(logForm) logForm.addEventListener('submit', loginUser)
 
 async function loginUser(event){
     event.preventDefault()
-    const username = document.getElementById('username').value
+    const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
 
     const result = await fetch('/login', {
@@ -39,7 +42,7 @@ async function loginUser(event){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username, password
+            nCarteVitale, password
         })
     }).then((res) => res.json())
 
@@ -74,6 +77,8 @@ async function changePassword(event){
 
     if(result.status === 'ok'){
         console.log('Successfully changed the password')
+        // Remove le token lors du changement de mdp pour redirect au login
+        localStorage.removeItem('token')
     } else {
         alert(result.error)
     }
@@ -82,5 +87,10 @@ async function changePassword(event){
 let disco = document.getElementById("disconnect")
 
 if(disco) disco.addEventListener("click", function() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('token')
+    // Test contenu localStorage event
+    console.log(localStorage)
 });
+
+// Test contenu localStorage main
+console.log(localStorage)
