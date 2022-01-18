@@ -2,9 +2,12 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const User = require('./model/user') 
+const User = require('./back/model/user') 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const ToQRCode = require('./back/modules/toQRCode.js');
+
+
 
 const JWT_SECRET = 'zekljazifjziogjaioeh8O34U_hhozreuhuhu_8_çt_7T8gf'
 
@@ -146,4 +149,3 @@ app.post('/register', async (req, res) => {
 app.listen(3000, () => {
     console.log('Server up at 3000')
 })
-
