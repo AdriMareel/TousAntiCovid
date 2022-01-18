@@ -79,33 +79,6 @@ async function changePassword(event){
     }
 }
 
-
-
-let changeForm = document.getElementById('changeForm')
-if(changeForm) changeForm.addEventListener('submit', changePassword)
-
-async function changePassword(event){
-    event.preventDefault()
-    const password = document.getElementById('password').value
-
-    const result = await fetch('/change-password', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            newpassword: password,
-            token: localStorage.getItem('token')
-        })
-    }).then((res) => res.json())
-
-    if(result.status === 'ok'){
-        console.log('Successfully changed the password')
-    } else {
-        alert(result.error)
-    }
-}
-
 let disco = document.getElementById("disconnect")
 
 if(disco) disco.addEventListener("click", function() {
