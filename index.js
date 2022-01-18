@@ -26,68 +26,121 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/front/html/login.html')
 })
 
-app.get('/Change', (req, res) => {
-    res.sendFile(__dirname + '/front/html/Change.html')
+app.get('/change-password', (req, res) => {
+    res.sendFile(__dirname + '/front/html/change-password.html')
 })
 
 app.use(bodyParser.json())
 
+app.post('/change-password', async (req, res) => {
+    const { token, newpassword: plainTextPassword } = req.body
+    try{
+        const user = jwt.verify(token, JWT_SECRET)
+        const _id = user.id
+        const password = await bcrypt.hash(plainTextPassword, 10)
+        await User.updateOne({ _id }, { $set: { password }})
+        res.json({ status: 'ok' })
+    }
+    catch(error){
+        res.json({ status: 'error', error: '(:'})
+    }
+    
+})
+
+// Login
 app.post('/login', async (req, res) => {
+    // Get user input
     const { username, password } = req.body
+
+    // Find username in database
     const user = await User.findOne({ username }).lean()
 
+    // If user exist
     if(!user){
-        return res.json({ status: 'error', error: 'Invalid username/password'})
+        return res.json({ 
+            status: 'error', 
+            error: 'Invalid username/password'
+        })
     }
 
     if(await bcrypt.compare(password, user.password)){
+        // Create token
+        const token = jwt.sign({ 
+            id: user._id, 
+            username: user.username 
+        }, 
+        JWT_SECRET
+        )
 
-        const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET)
-        return res.json({ status: 'ok', data: token})
+        // User
+        return res.json({ 
+            status: 'ok', 
+            data: token
+        })
     }
 
     res.json({ status: 'error', error: 'Invalid username/password' })
 })
 
+// Register
 app.post('/register', async (req, res) => {
+
+    // Get user input
     const { username, password: plainTextPassword } = req.body
 
+    // Validate user input
     if(!username || typeof username != 'string'){
-        return res.json({ status: 'error', error: 'Invalid username' })
+        return res.json({ 
+            status: 'error', 
+            error: 'Invalid username' 
+        })
     }
     if(!plainTextPassword || typeof plainTextPassword != 'string'){
-        return res.json({ status: 'error', error: 'Invalid password' })
+        return res.json({ 
+            status: 'error', 
+            error: 'Invalid password' 
+        })
     }
-
     if(plainTextPassword.length < 6){
-        return res.json({ status: 'error', error: 'Password too small. Should be atleast 6 characters' })
+        return res.json({ 
+            status: 'error', 
+            error: 'Password too small. Should be atleast 6 characters' 
+        })
     }
 
+    // Encrypt user password
     const password = await bcrypt.hash(plainTextPassword, 10)
 
+    // Try to create user in the database
     try {
         const response = await User.create({
             username,
             password
         })
         console.log('User created successfully: ', response)
+
+        // Create token
+        const token = jwt.sign({ 
+            id: response._id, 
+            username: response.username 
+        }, 
+        JWT_SECRET
+        )
+
+        res.json({ 
+            status: 'ok',
+            data: token
+        })
+
     } catch(error){
         if(error.code === 11000){
-            return res.json({ status: 'error', error: 'Username already used'})
+            return res.json({ 
+                status: 'error', 
+                error: 'Username already used'
+            })
         }
         throw error
     }
-
-    res.json({ status: 'ok' })
-})
-
-app.post('/Change', (req, res) => {
-
-    const {token} = req.body
-    const user = jwt.verify(token, JWT_SECRET) 
-    
-    console.log(user)
-    res.json({ status : 'ok'})
 })
 
 app.listen(3000, () => {

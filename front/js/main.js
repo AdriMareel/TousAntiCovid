@@ -21,6 +21,7 @@ async function registerUser(event){
     } else {
         alert(result.error)
     }
+    
 }
 
 
@@ -43,39 +44,45 @@ async function loginUser(event){
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
-        console.log('Got the token:', result.data)
+        console.log('Got the token: ', result.data)
         localStorage.setItem('token', result.data)
-        console.log(localStorage);
+        console.log(localStorage, result.data)
     } else {
         alert(result.error)
     }
 }
 
 
-let ChangeForm = document.getElementById('ChangeForm')
-if(ChangeForm) ChangeForm.addEventListener('submit', Change)
 
-async function Change(event){
+let changeForm = document.getElementById('changeForm')
+if(changeForm) changeForm.addEventListener('submit', changePassword)
+
+async function changePassword(event){
     event.preventDefault()
-    
     const password = document.getElementById('password').value
 
-    const result = await fetch('/login', {
+    const result = await fetch('/change-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            newpassword: password, 
-            token: localStorage.getItem('token')   
+            newpassword: password,
+            token: localStorage.getItem('token')
         })
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
-        console.log('Got the token: ', result.data)
-      
-        console.log(localStorage);
+        console.log('Successfully changed the password')
     } else {
         alert(result.error)
     }
 }
+
+let disco = document.getElementById("sah")
+
+if(disco) disco.addEventListener("click", function() {
+
+    localStorage.removeItem('token');
+
+  });
