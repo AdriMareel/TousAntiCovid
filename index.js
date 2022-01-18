@@ -28,39 +28,68 @@ app.get('/login', (req, res) => {
 
 app.use(bodyParser.json())
 
+// Login
 app.post('/login', async (req, res) => {
+    // Get user input
     const { username, password } = req.body
+
+    // Find username in database
     const user = await User.findOne({ username }).lean()
 
+    // If user exist
     if(!user){
-        return res.json({ status: 'error', error: 'Invalid username/password'})
+        return res.json({ 
+            status: 'error', 
+            error: 'Invalid username/password'
+        })
     }
 
     if(await bcrypt.compare(password, user.password)){
-
-        const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET)
-        return res.json({ status: 'ok', data: token})
+        // Create token
+        const token = jwt.sign({ 
+            id: user._id, 
+            username: user.username 
+        }, 
+        JWT_SECRET
+        )
+        return res.json({ 
+            status: 'ok', 
+            data: token
+        })
     }
 
     res.json({ status: 'error', error: 'Invalid username/password' })
 })
 
+// Register
 app.post('/register', async (req, res) => {
+    // Get user input
     const { username, password: plainTextPassword } = req.body
 
+    // Validate user input
     if(!username || typeof username != 'string'){
-        return res.json({ status: 'error', error: 'Invalid username' })
+        return res.json({ 
+            status: 'error', 
+            error: 'Invalid username' 
+        })
     }
     if(!plainTextPassword || typeof plainTextPassword != 'string'){
-        return res.json({ status: 'error', error: 'Invalid password' })
+        return res.json({ 
+            status: 'error', 
+            error: 'Invalid password' 
+        })
     }
-
     if(plainTextPassword.length < 6){
-        return res.json({ status: 'error', error: 'Password too small. Should be atleast 6 characters' })
+        return res.json({ 
+            status: 'error', 
+            error: 'Password too small. Should be atleast 6 characters' 
+        })
     }
 
+    // Encrypt user password
     const password = await bcrypt.hash(plainTextPassword, 10)
 
+    // Try to create user in the database
     try {
         const response = await User.create({
             username,
@@ -69,7 +98,10 @@ app.post('/register', async (req, res) => {
         console.log('User created successfully: ', response)
     } catch(error){
         if(error.code === 11000){
-            return res.json({ status: 'error', error: 'Username already used'})
+            return res.json({ 
+                status: 'error', 
+                error: 'Username already used'
+            })
         }
         throw error
     }
