@@ -1,16 +1,16 @@
-let regForm = document.getElementById('regForm')
 let proSante = document.getElementById('proSante')
 let importer = document.getElementById('importer')
-if(regForm) regForm.addEventListener('submit', registerUser)
 
-proSante.addEventListener("change",  function() {
+if(proSante) proSante.addEventListener("change",  function() {
     if (importer.style.display == "none"){
-        importer.style.display = "block";
+        importer.style.display = "block"
     } else {
-        importer.style.display = "none";
+        importer.style.display = "none"
     }
+})
 
-});
+let regForm = document.getElementById('regForm')
+if(regForm) regForm.addEventListener('submit', registerUser)
 
 async function registerUser(event){
     event.preventDefault()
@@ -43,6 +43,7 @@ async function registerUser(event){
 
                     if(result.status === 'ok'){
                         console.log('User successfully created')
+                        console.log(window.location.host)
                         window.location.href = 'http://192.168.252.56:3000/login'
                     } else {
                         alert(result.error)
