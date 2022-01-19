@@ -86,3 +86,39 @@ if(disco) disco.addEventListener("click", function() {
     localStorage.removeItem('token');
 
 });
+
+function isName(stringTest){
+    if (stringTest.match(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)){
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+function isNbrVital(stringtest){
+    if(stringtest.match(/^[1|2]([0-9]{2})(0[1-9]|1[0-2]|62|63)(2[ABab]|[0-9]{2})(00[1-9]|0[1-9][0-9]|[1-8][0-9]{2}|9[0-8][0-9]|990)(00[1-9]|0[1-9][0-9]|[1-9][0-9]{2})(0[1-9]|[1-8][0-9]|9[0-7])$/)){
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+function isNbrTel(stringTest){
+    if(stringTest.match(/(0|\\+33|0033)[1-9][0-9]{8}/)){
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+function erreurInput(id, valide){
+    if(valide){
+        document.getElementById(id).removeAttribute("style", "borderColor")
+    }
+    else{
+        document.getElementById(id).style.borderColor = "red";
+    }
+}

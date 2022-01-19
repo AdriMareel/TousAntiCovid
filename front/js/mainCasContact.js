@@ -19,16 +19,29 @@ function deleteInput(){
 }
 
 function submit(){
+    let sub = true;
+    let infoCasContact = new Array()
     if(counter != 0){
         for(let i = 0 ; i<counter; i++){
             let nameID = "name" + i;
             let nicknameID = "nickname"+i;
-            console.log(nameID, nicknameID)
-            console.log(document.getElementById(nameID).value);
-            console.log(document.getElementById(nicknameID).value);
             
+            let name = document.getElementById(nameID).value;
+            if(isName(name)){infoCasContact.push(name);erreurInput(nameID, true)}else{sub = false;erreurInput(nameID, false)}
+
+            let nickname = document.getElementById(nicknameID).value
+            if(nickname){infoCasContact.push(nickname);erreurInput(nicknameID, true)}else{sub = false;erreurInput(nicknameID, false)}  
         }
     }
+
     let date = new Date()
     date = date.getDate()+"/"+date.getMonth()+1+"/"+date.getFullYear();
+    infoCasContact.push(date);
+
+    if(sub == true && counter > 0){
+        console.log(infoCasContact)
+    }
 }
+
+
+
