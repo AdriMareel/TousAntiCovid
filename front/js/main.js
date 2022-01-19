@@ -36,20 +36,20 @@ async function registerUser(event){
                         alert(result.error)
                     }
                 } else {
-                    erreurInput(nCarteVitale, false)
+                    erreurInput('nCarteVitale', false)
                     alert("Carte vitale invalide !")
                 }
             } else {
-                erreurInput(nTel, false)
+                erreurInput('nTel', false)
                 alert("Numéro de téléphone invalide !")
             }
         } else {
-            erreurInput(nom, false)
+            erreurInput('nom', false)
             alert("Le nom est invalide !")
         }
     } else {
-        erreurInput(passwordVerif, false)
-        erreurInput(password, false)
+        erreurInput('passwordVerif', false)
+        erreurInput('password', false)
         alert("Les mots de passe ne correspondent pas !")
     }
 
