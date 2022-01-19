@@ -3,7 +3,7 @@ let counter = 0;
 function ajoutCasContact(){
     var div = document.createElement("div");
     document.getElementById("inputCasContact").appendChild(div).setAttribute("id", "balise"+counter);               //se place dans div avec l'id inputCasContact
-    document.getElementById("balise"+counter).innerHTML="Prénom : <input id='name"+counter+"'></input> Nom : <input id='nickname"+counter+"'></input>"
+    document.getElementById("balise"+counter).innerHTML="Prénom : <input id='name"+counter+"'></input> Nom : <input id='nickname"+counter+"'></input> Numéro carte vitale : <input id='nbrVitale"+counter+"'></input>"
     counter++;
 }
 
@@ -25,12 +25,16 @@ function submit(){
         for(let i = 0 ; i<counter; i++){
             let nameID = "name" + i;
             let nicknameID = "nickname"+i;
+            let vitaleID = "nbrVitale"+i;
             
             let name = document.getElementById(nameID).value;
             if(isName(name)){infoCasContact.push(name);erreurInput(nameID, true)}else{sub = false;erreurInput(nameID, false)}
 
             let nickname = document.getElementById(nicknameID).value
-            if(nickname){infoCasContact.push(nickname);erreurInput(nicknameID, true)}else{sub = false;erreurInput(nicknameID, false)}  
+            if(isName(nickname)){infoCasContact.push(nickname);erreurInput(nicknameID, true)}else{sub = false;erreurInput(nicknameID, false)}  
+       
+            let nbrCarteVitale = document.getElementById(vitaleID).value
+            if(isNbrVital(nbrCarteVitale)){infoCasContact.push(nbrCarteVitale);erreurInput(vitaleID, true)}else{sub = false;erreurInput(vitaleID, false)}  
         }
     }
 
