@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Page Perso - Tous Anti Covid</title>
         <link rel="stylesheet" type="text/css" href="../css/nav.css">
+        <link rel="stylesheet" type="text/css" href="../css/login.css">
         <link rel="stylesheet" type="text/css" href="../css/professionnel.css">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,13 +31,37 @@
         </ul>
     </nav>
 
-
     <div class="main">
-    	<a class="links" href="professionnel/vaccination">Rentrer une vaccination</a>
-    	<a class="links" href="professionnel/test">Rentrer un résultat de test</a>
+    	<h1>Soumettre un résultat de test</h1>
+
+    	<div class="inputBox">
+    		<label>N° de Sécu du patient</label>
+    		<input type="text" placeholder="Entrez le numéro de Sécurité">
+    	</div>
+
+    	<div class="inputBox">
+    		<label>Résultat du test du patient</label>
+    		<select>
+    			<option value="negatif">Négatif</option>
+    			<option value="positif">Positif</option>
+    		</select>
+    	</div>
+
+    	<div class="inputBox">
+    		<label>Type de test</label>
+    		<select>
+    			<option value="">Entrer un type</option>
+    			<option value="PCR">PCR</option>
+    			<option value="anitgénique">Antigénique</option>
+    		</select>
+    	</div>
+
+    	<div>
+    		<input type="submit" name="">
+    	</div>
+    	
+
     </div>
-
-
 
 </body>
 </html>
