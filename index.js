@@ -29,6 +29,11 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/front/html/login.html')
 })
 
+
+app.get('/register', (req, res) => {
+    res.sendFile(__dirname + '/front/html/register.html')
+})
+
 app.get('/change-password', (req, res) => {
     res.sendFile(__dirname + '/front/html/change-password.html')
 })
