@@ -25,6 +25,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/front/html/home.html')
 })
 
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/front/html/login.html')
+})
+
+
 app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/front/html/register.html')
 })
