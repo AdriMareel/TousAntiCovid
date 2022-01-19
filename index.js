@@ -12,6 +12,7 @@ const ToQRCode = require('./back/modules/toQRCode.js');
 const JWT_SECRET = 'zekljazifjziogjaioeh8O34U_hhozreuhuhu_8_çt_7T8gf'
 
 // mongodb+srv://<username>:<password>@data.tr5qe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+//const mongodb = 'mongodb+srv://admin:admin@datacovid.gqdpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 const mongodb = 'mongodb://Admin:Admin123@192.168.252.87:27017/covid_data?authSource=admin';
 mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
     //.then((result) => app.listen(3000))
@@ -41,6 +42,13 @@ app.get('/change-password', (req, res) => {
 app.get('/pagePerso', (req, res) => {
     res.sendFile(__dirname + '/front/html/pagePerso.html')
 })
+app.get('/vaccin', (req, res) => {
+    res.sendFile(__dirname + '/front/html/vaccin.html')
+})
+
+app.get('/addTestUser', (req, res) => {
+    res.sendFile(__dirname + '/front/html/addTestUser.html')
+})
 
 app.use(bodyParser.json())
 
@@ -48,6 +56,9 @@ app.post('/change-password', async (req, res) => {
     const { token, newpassword: plainTextPassword } = req.body
     try{
         const user = jwt.verify(token, JWT_SECRET)
+
+        console.log(user)
+
         const _id = user.id
         const password = await bcrypt.hash(plainTextPassword, 10)
         await User.updateOne({ _id }, { $set: { password }})
@@ -61,10 +72,10 @@ app.post('/change-password', async (req, res) => {
 // Login
 app.post('/login', async (req, res) => {
     // Get user input
-    const { username, password } = req.body
+    const { nCarteVitale, password } = req.body
 
     // Find username in database
-    const user = await User.findOne({ username }).lean()
+    const user = await User.findOne({ nCarteVitale }).lean()
 
     // If user exist
     if(!user){
@@ -78,7 +89,7 @@ app.post('/login', async (req, res) => {
         // Create token
         const token = jwt.sign({ 
             id: user._id, 
-            username: user.username 
+            nCarteVitale: user.nCarteVitale 
         }, 
         JWT_SECRET
         )
@@ -97,10 +108,11 @@ app.post('/login', async (req, res) => {
 app.post('/register', async (req, res) => {
 
     // Get user input
-    const { username, password: plainTextPassword } = req.body
+    const { nCarteVitale, password: plainTextPassword, nom, prenom, dNaissance, email, nTel, nivAutorisation } = req.body
 
     // Validate user input
-    if(!username || typeof username != 'string'){
+    // à ajouter : nom, prenom, dNaissance, email, nTel, nivAutorisation
+    if(!nCarteVitale || typeof nCarteVitale != 'string'){
         return res.json({ 
             status: 'error', 
             error: 'Invalid username' 
@@ -125,15 +137,21 @@ app.post('/register', async (req, res) => {
     // Try to create user in the database
     try {
         const response = await User.create({
-            username,
-            password
+            nCarteVitale,
+            password,
+            nom,
+            prenom,
+            dNaissance,
+            email,
+            nTel,
+            nivAutorisation
         })
         console.log('User created successfully: ', response)
 
         // Create token
         const token = jwt.sign({ 
             id: response._id, 
-            username: response.username 
+            nCarteVitale: response.nCarteVitale 
         }, 
         JWT_SECRET
         )
@@ -154,6 +172,78 @@ app.post('/register', async (req, res) => {
     }
 })
 
+// ADD VACCIN
+app.post('/vaccin', async (req, res) => {
+
+    // Get user input
+    const { token, nCarteVitale, newdate, name } = req.body
+
+    // Validate user input
+    if (!nCarteVitale || typeof nCarteVitale != 'string') {
+        return res.json({
+            status: 'error',
+            error: 'Invalid carte'
+        })
+    }
+
+    // Find username in database
+    const user = await User.findOne({ nCarteVitale }).lean()
+    console.log(user)
+
+    // If user exist
+    if (!user) {
+        return res.json({
+            status: 'error',
+            error: 'Invalid username/password'
+        })
+    }
+
+
+    await User.updateOne({ nCarteVitale }, { $addToSet: { vaccins: { name : name, date: newdate} } })
+    res.json({ status: 'ok' })
+})
+
+// Add Test User
+app.post('/addTestUser', async (req, res) => {
+
+    // Get user input
+    const {nCarteVitale, date, resultat, type, token } = req.body
+
+    // Validate user input
+    if (!nCarteVitale || typeof nCarteVitale != 'string') {
+        return res.json({
+            status: 'error',
+            error: 'Invalid carte'
+        })
+    }
+
+    // Find username in database
+    const user = await User.findOne({ nCarteVitale }).lean()
+    console.log(user)
+
+    // If user exist
+    if (!user) {
+        return res.json({
+            status: 'error',
+            error: 'Invalid username/password'
+        })
+    }
+
+
+    console.log(nCarteVitale, resultat, date, type)
+
+    // Try to add vaccin in the database
+    await User.updateOne({ nCarteVitale }, { $addToSet: { tests: { typeTest : type, date: date, result : resultat} } })
+    res.json({ status: 'ok' })
+
+})
+
 app.listen(3000, () => {
     console.log('Server up at 3000')
 })
+
+// Test génération QR code
+//ToQRCode("1019238923758457")
+
+
+// Test ajout d'un vaccin à l'user connecté

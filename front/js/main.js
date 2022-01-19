@@ -3,8 +3,14 @@ if(regForm) regForm.addEventListener('submit', registerUser)
 
 async function registerUser(event){
     event.preventDefault()
-    const username = document.getElementById('username').value
+    const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
+    const nom = document.getElementById('nom').value
+    const prenom = document.getElementById('prenom').value
+    const dNaissance = document.getElementById('dNaissance').value
+    const email = document.getElementById('email').value
+    const nTel = document.getElementById('nTel').value
+    const nivAutorisation = 1
 
     const result = await fetch('/register', {
         method: 'POST',
@@ -12,7 +18,7 @@ async function registerUser(event){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username, password
+            nCarteVitale, password, nom, prenom, dNaissance, email, nTel, nivAutorisation
         })
     }).then((res) => res.json())
 
@@ -30,7 +36,7 @@ if(logForm) logForm.addEventListener('submit', loginUser)
 
 async function loginUser(event){
     event.preventDefault()
-    const username = document.getElementById('username').value
+    const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
 
     const result = await fetch('/login', {
@@ -39,14 +45,13 @@ async function loginUser(event){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username, password
+            nCarteVitale, password
         })
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
         console.log('Got the token: ', result.data)
         localStorage.setItem('token', result.data)
-        console.log(localStorage, result.data)
     } else {
         alert(result.error)
     }
@@ -74,6 +79,8 @@ async function changePassword(event){
 
     if(result.status === 'ok'){
         console.log('Successfully changed the password')
+        // Remove le token lors du changement de mdp pour redirect au login
+        localStorage.removeItem('token')
     } else {
         alert(result.error)
     }
@@ -107,3 +114,76 @@ fs.writeFile('../html/Passe'+id+'.html',content,function(err){
     if(err) throw err;
     console.log('ff');
 });
+let addVaccinForm = document.getElementById('addVaccinForm')
+if(addVaccinForm) addVaccinForm.addEventListener('submit', addVaccin)
+
+async function addVaccin(event){
+    event.preventDefault()
+    const date = document.getElementById('date').value
+    const nCarteVitale = document.getElementById('nCarteVitale').value
+    const name = document.getElementById('name').value
+
+    const result = await fetch('/vaccin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newdate: date,
+            nCarteVitale: nCarteVitale,
+            name: name,
+            token: localStorage.getItem('token')
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('Ajout d\'un vaccin')
+    } else {
+        alert(result.error)
+    }
+}
+
+
+let addTestUser = document.getElementById('addTestUser')
+if(addTestUser) addTestUser.addEventListener('submit', addTest1)
+
+async function addTest1(event){
+    event.preventDefault()
+    const nCarteVitale = document.getElementById('nCarteVitale').value
+    const date = document.getElementById('date').value
+    const resultat = document.querySelector('input[name=resultat]:checked').value
+    const type = document.getElementById('type').value
+
+    const result = await fetch('/addTestUser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nCarteVitale: nCarteVitale,
+            date: date,
+            resultat: resultat,
+            type: type,
+            token: localStorage.getItem('token')
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('Ajout d\'un test')
+    } else {
+        alert(result.error)
+    }
+}
+
+
+
+let disco = document.getElementById("disconnect")
+
+if(disco) disco.addEventListener("click", function() {
+    localStorage.removeItem('token')
+    // Test contenu localStorage event
+    console.log(localStorage)
+});
+
+// Test contenu localStorage main
+console.log(localStorage)
