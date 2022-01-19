@@ -7,6 +7,8 @@ const UserSchema = new mongoose.Schema(
         nom:          { type: String, required: true },
         prenom:       { type: String, required: true },
         dNaissance:   { type: String, required: true },
+        email:        { type: String, required: true },
+        nTel:         { type: String, required: true },
 
         // à ajouter : niveau d'autorisation
         /*
@@ -22,8 +24,7 @@ const UserSchema = new mongoose.Schema(
         vaccins:      [{
             numero:   { type: Number },
             name:     { type: String },
-            date:     { type: String },
-            proSante: { type: String }
+            date:     { type: String }  // année-mois-jour-heure-minute
         }],
         
 
@@ -32,7 +33,8 @@ const UserSchema = new mongoose.Schema(
         tests:        [{
             numero:   { type: Number },
             typeTest: { type: String },
-            date:     { type: String }
+            date:     { type: String },
+            result:   { type: String }
         }]
         */
         token:        { type: String },
