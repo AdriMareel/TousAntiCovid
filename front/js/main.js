@@ -26,11 +26,11 @@ async function registerUser(event){
 
     if (password == passwordVerif) {
         if (isName(nom)) {
-            erreurInput(nom, true)
+            erreurInput('nom', true)
             if (isNbrTel(nTel)) {
-                erreurInput(nTel, true)
+                erreurInput('nTel', true)
                 if (isNbrVital(nCarteVitale)) {
-                    erreurInput(nCarteVitale, true)        
+                    erreurInput('nCarteVitale', true)        
                     const result = await fetch('/register', {
                         method: 'POST',
                         headers: {
@@ -42,7 +42,8 @@ async function registerUser(event){
                     }).then((res) => res.json())
 
                     if(result.status === 'ok'){
-                        alert('User successfully created')
+                        console.log('User successfully created')
+                        window.location.href = 'http://192.168.252.56:3000/login'
                     } else {
                         alert(result.error)
                     }
@@ -88,6 +89,7 @@ async function loginUser(event){
     if(result.status === 'ok'){
         console.log('Got the token: ', result.data)
         localStorage.setItem('token', result.data)
+        window.location.href = 'http://192.168.252.56:3000/pagePerso'
     } else {
         alert(result.error)
     }
