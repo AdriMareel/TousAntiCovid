@@ -10,33 +10,35 @@ const UserSchema = new mongoose.Schema(
         email:        { type: String, required: true },
         nTel:         { type: String, required: true },
 
-        // à ajouter : niveau d'autorisation
-        /*
-        nivAutorisation: { type: Number ? required: true }
-            1 : Utilisateur lambda
-            2 : Professionnel de santé
-            3 : Gouvernement
-            4 : admin ?
-        */
-
         // à ajouter : vaccins
         
         vaccins:      [{
-            numero:   { type: Number },
             name:     { type: String },
             date:     { type: String }  // année-mois-jour-heure-minute
         }],
         
-
         // à ajouter : tests (pcr, antigénique)
-        /*
         tests:        [{
-            numero:   { type: Number },
             typeTest: { type: String },
             date:     { type: String },
             result:   { type: String }
-        }]
+        }],
+
+        /*
+        contacts:        [{
+            typeTest: { type: String },
+            date:     { type: String },
+            result:   { type: String }
+        }],*/
+
+        // à ajouter : niveau d'autorisation
+        
+        nivAutorisation: { type: Number, required: true },
+        /*  1 : Utilisateur lambda
+            2 : Professionnel de santé
+            3 : Gouvernement / admin
         */
+
         token:        { type: String },
     }, 
     { collection: 'users' }

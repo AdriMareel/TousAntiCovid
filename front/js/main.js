@@ -10,6 +10,7 @@ async function registerUser(event){
     const dNaissance = document.getElementById('dNaissance').value
     const email = document.getElementById('email').value
     const nTel = document.getElementById('nTel').value
+    const nivAutorisation = 1
 
     const result = await fetch('/register', {
         method: 'POST',
@@ -17,7 +18,7 @@ async function registerUser(event){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            nCarteVitale, password, nom, prenom, dNaissance, email, nTel
+            nCarteVitale, password, nom, prenom, dNaissance, email, nTel, nivAutorisation
         })
     }).then((res) => res.json())
 
@@ -94,6 +95,7 @@ async function addVaccin(event){
     event.preventDefault()
     const date = document.getElementById('date').value
     const nCarteVitale = document.getElementById('nCarteVitale').value
+    const name = document.getElementById('name').value
 
     const result = await fetch('/vaccin', {
         method: 'POST',
@@ -103,6 +105,7 @@ async function addVaccin(event){
         body: JSON.stringify({
             newdate: date,
             nCarteVitale: nCarteVitale,
+            name: name,
             token: localStorage.getItem('token')
         })
     }).then((res) => res.json())
@@ -113,6 +116,40 @@ async function addVaccin(event){
         alert(result.error)
     }
 }
+
+
+let addTestUser = document.getElementById('addTestUser')
+if(addTestUser) addTestUser.addEventListener('submit', addTest1)
+
+async function addTest1(event){
+    event.preventDefault()
+    const nCarteVitale = document.getElementById('nCarteVitale').value
+    const date = document.getElementById('date').value
+    const resultat = document.querySelector('input[name=resultat]:checked').value
+    const type = document.getElementById('type').value
+
+    const result = await fetch('/addTestUser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nCarteVitale: nCarteVitale,
+            date: date,
+            resultat: resultat,
+            type: type,
+            token: localStorage.getItem('token')
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('Ajout d\'un test')
+    } else {
+        alert(result.error)
+    }
+}
+
+
 
 let disco = document.getElementById("disconnect")
 
