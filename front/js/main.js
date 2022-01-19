@@ -14,6 +14,8 @@ let content='<html><body><h3>Nom</h3><h3>Prénom</h3><img src="'+imgData+'" alt=
 fs.writeFile('../html/Passe'+id+'.html',content,function(err){
     if(err) throw err;
     console.log('ff');
+});
+
 let regForm = document.getElementById('regForm');
 if(regForm) regForm.addEventListener('submit', registerUser);
 
