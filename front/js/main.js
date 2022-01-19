@@ -161,3 +161,32 @@ if(disco) disco.addEventListener("click", function() {
 
 // Test contenu localStorage main
 console.log(localStorage)
+
+
+
+
+
+
+
+/*
+document.addEventListener('onload', verif)
+
+async function verif(event){
+
+    const result = await fetch('/verify', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newpassword: nCarteVitale,
+            token: localStorage.getItem('token')
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('verified')
+    } else {
+        alert(result.error)
+    }
+}*/

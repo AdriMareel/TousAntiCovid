@@ -1,7 +1,7 @@
 const QRCode = require('qrcode')
 
 function ToQRCode(id) {
-    let urlcomplete = "localhost:3000/pass/" + id + "/";
+    let urlcomplete = "http://192.168.252.56:3000/VerifPasse?" + id;
     let QRc = QRCode.toString(urlcomplete, function (err, url) {
     })
 
