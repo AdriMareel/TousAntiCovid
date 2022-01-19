@@ -6,6 +6,72 @@ body{
 	scroll-behavior: smooth;
 }
 
+nav{
+	display: flex;
+	width: 100%;
+	margin: 0;
+	background-color:white;
+}
+
+nav img{
+	margin-top: 0.5vh;
+	margin-left: 20px;
+	height: 9vh;
+}
+
+ul{
+	margin: 0;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-content: center;
+	align-items: center;
+	padding: 0;
+	height: 10vh;
+}
+
+li{
+	list-style: none;
+	height: 30px;
+}
+
+a{
+	color: black;
+	text-decoration: none;
+	font-size: 105%;
+	font-weight: bold;
+}
+
+li:hover{
+	transition: 0.3s;
+	transform: scale(1.1);
+}
+
+li::before {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 100%;
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 30px;
+  background-color: black;
+  transition: transform 300ms ease-in-out;
+
+  transform: scaleX(0);
+}
+
+li:hover::before,
+li:focus::before {
+  transform: scaleX(1);
+}
+
+h1{
+	font-weight: 700;
+}
+
 h2{
 	font-weight: 300;
 }
@@ -13,9 +79,10 @@ h2{
 .title{
 	color: white;
 	font-weight: bold;
-	font-size: 300%;
+	font-size: 250%;
 	text-align: center;
 }
+
 .wrapper{
 	margin: 20px 20px;
 	display: grid;
@@ -46,9 +113,10 @@ h2{
 }
 
 .left-high .text{
-	padding-bottom: 25px;
-	width: 55%;
-	font-size: 140%;
+	align-self: stretch;
+	margin: 10px 0;
+	width: 60%;
+	font-size: 110%;
 }
 
 .text h1{
@@ -92,16 +160,17 @@ h2{
 	height: 50px;
 	background-color: #90befc;
 	cursor: pointer;
+	transform: scale(0.8);
 }
 
 .left-bottom-1 button:hover{
-	transform: scale(1.05);
+	transform: scale(0.9);
+	transition: 0.5s ease;
 }
 
-.left-bottom-1 img{
-	height: 50%;
+.left-bottom-1 text{
+	font-size: 80%;
 }
-
 
 .wrapper .left-bottom-2{
 	border-radius: 10px;
@@ -131,6 +200,17 @@ h2{
 	background-color: #FFAFBD;
 	cursor: pointer;
 	text-align: center;
+	transform: scale(0.8);
+}
+
+.left-bottom-2 button:hover{
+	transform: scale(0.9);
+	transition: 0.5s ease;
+}
+
+.left-bottom-2 .text{
+	text-align: center;
+	transform: scale(0.9);
 }
 
 .wrapper .right{
@@ -148,10 +228,11 @@ h2{
 	align-items: center;
 	justify-content: space-evenly;
 	text-align: center;
+	font-size: 90%;
 }
 
 .right img{
-	width: 60%;
+	width: 200px;
 }
 
 .right div h2{
@@ -168,6 +249,7 @@ h2{
 	height: 50px;
 	background-color: #27374e;
 	cursor: pointer;
+	font-size: 85%;
 }
 
 .right button:hover{
