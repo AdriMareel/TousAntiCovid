@@ -1,5 +1,5 @@
-let regForm = document.getElementById('regForm');
-if(regForm) regForm.addEventListener('submit', registerUser);
+let regForm = document.getElementById('regForm')
+if(regForm) regForm.addEventListener('submit', registerUser)
 
 async function registerUser(event){
     event.preventDefault()
@@ -86,6 +86,9 @@ if(disco) disco.addEventListener("click", function() {
     localStorage.removeItem('token');
 
 });
+
+
+
 
 //partie création HTML
 const { jsPDF } = require("jspdf"); // will automatically load the node version
