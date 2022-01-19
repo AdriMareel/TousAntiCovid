@@ -1,4 +1,4 @@
-let counter = 0;
+let counter = 1;
 
 function ajoutCasContact(){
     var div = document.createElement("div");
