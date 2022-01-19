@@ -1,5 +1,16 @@
 let regForm = document.getElementById('regForm')
+let proSante = document.getElementById('proSante')
+let importer = document.getElementById('importer')
 if(regForm) regForm.addEventListener('submit', registerUser)
+
+proSante.addEventListener("change",  function() {
+    if (importer.style.display == "none"){
+        importer.style.display = "block";
+    } else {
+        importer.style.display = "none";
+    }
+
+});
 
 async function registerUser(event){
     event.preventDefault()
