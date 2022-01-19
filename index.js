@@ -29,6 +29,18 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/front/html/login.html')
 })
 
+app.get('/professionnel', (req, res) => {
+    res.sendFile(__dirname + '/front/html/professionnel.html')
+})
+
+app.get('/professionnel/vaccination', (req, res) => {
+    res.sendFile(__dirname + '/front/html/professionnel-vaccination.html')
+})
+
+app.get('/professionnel/test', (req, res) => {
+    res.sendFile(__dirname + '/front/html/professionnel-test.html')
+})
+
 
 app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/front/html/register.html')
