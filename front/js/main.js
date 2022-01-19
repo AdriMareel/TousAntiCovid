@@ -1,3 +1,4 @@
+//partie création HTML
 const { jsPDF } = require("jspdf"); // will automatically load the node version
 let fs=require('fs');
 const doc = new jsPDF();
@@ -7,8 +8,9 @@ doc.text("Prénom",80,200 )
 doc.addImage(imgData, 'JPEG', 40, 30, 150, 150)
 doc.save("Passe.pdf");
 
+//partie création HTML
 let id=1;
-let content='<html><body><h3>Nom</h3><h3>Prénom</h3><img src="'+imgData+'" alt="QrCode"></body></html>'
+let content='<html><body><h3>Nom</h3><h3>Prénom</h3><img src="'+imgData+'" alt="QrCode"></body></html>';
 fs.writeFile('../html/Passe'+id+'.html',content,function(err){
     if(err) throw err;
     console.log('ff');
