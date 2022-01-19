@@ -1,0 +1,34 @@
+{
+  "name": "tousanticovid",
+  "version": "1.0.0",
+  "description": "Projet info CIR3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdriMareel/TousAntiCovid.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdriMareel/TousAntiCovid/issues"
+  },
+  "homepage": "https://github.com/AdriMareel/TousAntiCovid#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "express-socket.io-session": "^1.3.5",
+    "express-validator": "^6.14.0",
+    "jspdf": "^2.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.6",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "qrcode": "^1.5.0",
+    "socket.io": "^4.4.1"
+  }
+}
