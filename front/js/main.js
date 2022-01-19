@@ -5,6 +5,7 @@ async function registerUser(event){
     event.preventDefault()
     const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
+    const passwordVerif = document.getElementById('passwordVerif').value
     const nom = document.getElementById('nom').value
     const prenom = document.getElementById('prenom').value
     const dNaissance = document.getElementById('dNaissance').value
@@ -12,22 +13,26 @@ async function registerUser(event){
     const nTel = document.getElementById('nTel').value
     const nivAutorisation = 1
 
-    const result = await fetch('/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            nCarteVitale, password, nom, prenom, dNaissance, email, nTel, nivAutorisation
-        })
-    }).then((res) => res.json())
+    if (password == passwordVerif) {
+            const result = await fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nCarteVitale, password, nom, prenom, dNaissance, email, nTel, nivAutorisation
+            })
+        }).then((res) => res.json())
 
-    if(result.status === 'ok'){
-        alert('User successfully created')
+        if(result.status === 'ok'){
+            alert('User successfully created')
+        } else {
+            alert(result.error)
+        }
     } else {
-        alert(result.error)
+        alert("Les mots de passe ne correspondent pas !")
     }
-    
+
 }
 
 
