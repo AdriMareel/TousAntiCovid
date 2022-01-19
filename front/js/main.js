@@ -14,22 +14,42 @@ async function registerUser(event){
     const nivAutorisation = 1
 
     if (password == passwordVerif) {
-            const result = await fetch('/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nCarteVitale, password, nom, prenom, dNaissance, email, nTel, nivAutorisation
-            })
-        }).then((res) => res.json())
+        if (isName(nom)) {
+            erreurInput(nom, true)
+            if (isNbrTel(nTel)) {
+                erreurInput(nTel, true)
+                if (isNbrVital(nCarteVitale)) {
+                    erreurInput(nCarteVitale, true)        
+                    const result = await fetch('/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            nCarteVitale, password, nom, prenom, dNaissance, email, nTel, nivAutorisation
+                        })
+                    }).then((res) => res.json())
 
-        if(result.status === 'ok'){
-            alert('User successfully created')
+                    if(result.status === 'ok'){
+                        alert('User successfully created')
+                    } else {
+                        alert(result.error)
+                    }
+                } else {
+                    erreurInput(nCarteVitale, false)
+                    alert("Carte vitale invalide !")
+                }
+            } else {
+                erreurInput(nTel, false)
+                alert("Numéro de téléphone invalide !")
+            }
         } else {
-            alert(result.error)
+            erreurInput(nom, false)
+            alert("Le nom est invalide !")
         }
     } else {
+        erreurInput(passwordVerif, false)
+        erreurInput(password, false)
         alert("Les mots de passe ne correspondent pas !")
     }
 
@@ -162,6 +182,42 @@ if(disco) disco.addEventListener("click", function() {
     // Test contenu localStorage event
     console.log(localStorage)
 });
+
+function isName(stringTest){
+    if (stringTest.match(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)){
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+function isNbrVital(stringtest){
+    if(stringtest.match(/^[1|2]([0-9]{2})(0[1-9]|1[0-2]|62|63)(2[ABab]|[0-9]{2})(00[1-9]|0[1-9][0-9]|[1-8][0-9]{2}|9[0-8][0-9]|990)(00[1-9]|0[1-9][0-9]|[1-9][0-9]{2})(0[1-9]|[1-8][0-9]|9[0-7])$/)){
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+function isNbrTel(stringTest){
+    if(stringTest.match(/(0|\\+33|0033)[1-9][0-9]{8}/)){
+        return true
+    }
+    else{
+        return false
+    }
+}
+
+function erreurInput(id, valide){
+    if(valide){
+        document.getElementById(id).removeAttribute("style", "borderColor")
+    }
+    else{
+        document.getElementById(id).style.borderColor = "red";
+    }
+}
 
 // Test contenu localStorage main
 console.log(localStorage)
