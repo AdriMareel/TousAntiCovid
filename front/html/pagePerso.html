@@ -14,6 +14,7 @@
 	<!-- AOS -->
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
 </head>
 <body>
@@ -71,7 +72,17 @@
 				<h2 id="persoDNaissance">Né le XX/XX/XXXX</h2>
 			</div>
 			<div>
-				<img src="../images/QRCodeExample.png" id="qr">
+				<div id="qrcode-2"></div>
+					<script type="text/javascript">
+						var qrcode = new QRCode(document.getElementById("qrcode-2"), {
+							text: "https://webisora.com",
+							width: 128,
+							height: 128,
+							colorDark : "#5868bf",
+							colorLight : "#ffffff",
+							correctLevel : QRCode.CorrectLevel.H
+						});
+					</script>
 				<h1 id="persoTypeVaccin">Pfizer-BioNTech</h1>
 				<h2 id="persoDVaccin">Injection le XX/XX/XXXX</h2>
 			</div>
