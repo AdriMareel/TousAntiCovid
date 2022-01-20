@@ -138,7 +138,11 @@ if(disco) disco.addEventListener("click", function() {
 
 });
 
+let addVaccinForm = document.getElementById('addVaccinForm')
+if(addVaccinForm) addVaccinForm.addEventListener('submit', addVaccin)
+
 async function addVaccin(event){
+    console.log("test")
     event.preventDefault()
     const date = document.getElementById('date').value
     const nCarteVitale = document.getElementById('nCarteVitale').value

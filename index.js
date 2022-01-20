@@ -312,23 +312,27 @@ app.post('/getInfo', async (req, res) => {
         console.log(infoUser)
         let typeVaccin
         let dateVaccin
+        let urlQrCode
         if(infoUser.vaccins.length != 0){
             typeVaccin = infoUser.vaccins[infoUser.vaccins.length - 1].name
             dateVaccin = infoUser.vaccins[infoUser.vaccins.length - 1].date
+            urlQrCode = 'http://'+url+'/VerifPasse?'+infoUser.nCarteVitale
         } else {
             typeVaccin = ""
             dateVaccin = ""
+            urlQrCode = ""
         }
 
-        const qr = ToQRCode('http://'+url+'/VerifPasse?'+infoUser.nCarteVitale)
-        console.log(qr)
+        //const qr = ToQRCode('http://'+url+'/VerifPasse?'+infoUser.nCarteVitale)
+        //console.log(qr)
 
         const infoUserToSend = {
             name: infoUser.nom,
             prenom: infoUser.prenom,
             dNaissance: infoUser.dNaissance,
             typeVaccin: typeVaccin,
-            dateVaccin: dateVaccin
+            dateVaccin: dateVaccin,
+            urlQrCode: urlQrCode
         }
         console.log(infoUserToSend)
         res.json({ status: 'ok', data: infoUserToSend })
