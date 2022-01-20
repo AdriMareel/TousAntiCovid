@@ -1,16 +1,16 @@
-let regForm = document.getElementById('regForm')
 let proSante = document.getElementById('proSante')
 let importer = document.getElementById('importer')
-if(regForm) regForm.addEventListener('submit', registerUser)
 
-proSante.addEventListener("change",  function() {
+if(proSante) proSante.addEventListener("change",  function() {
     if (importer.style.display == "none"){
-        importer.style.display = "block";
+        importer.style.display = "block"
     } else {
-        importer.style.display = "none";
+        importer.style.display = "none"
     }
+})
 
-});
+let regForm = document.getElementById('regForm')
+if(regForm) regForm.addEventListener('submit', registerUser)
 
 async function registerUser(event){
     event.preventDefault()
@@ -24,45 +24,32 @@ async function registerUser(event){
     const nTel = document.getElementById('nTel').value
     const nivAutorisation = 1
 
-    if (password == passwordVerif) {
-        if (isName(nom)) {
-            erreurInput('nom', true)
-            if (isNbrTel(nTel)) {
-                erreurInput('nTel', true)
-                if (isNbrVital(nCarteVitale)) {
-                    erreurInput('nCarteVitale', true)        
-                    const result = await fetch('/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            nCarteVitale, password, nom, prenom, dNaissance, email, nTel, nivAutorisation
-                        })
-                    }).then((res) => res.json())
+    const tabID = ['nCarteVitale','password','passwordVerif','nom','prenom','dNaissance','email','nTel']
 
-                    if(result.status === 'ok'){
-                        console.log('User successfully created')
-                        window.location.href = 'http://192.168.252.56:3000/login'
-                    } else {
-                        alert(result.error)
-                    }
-                } else {
-                    erreurInput('nCarteVitale', false)
-                    alert("Carte vitale invalide !")
-                }
-            } else {
-                erreurInput('nTel', false)
-                alert("Numéro de téléphone invalide !")
-            }
-        } else {
-            erreurInput('nom', false)
-            alert("Le nom est invalide !")
-        }
+    tabID.forEach(element => {
+        inputRouge(element, false);
+    });
+    
+    const result = await fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nCarteVitale, password, passwordVerif, nom, prenom, dNaissance, email, nTel, nivAutorisation
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('User successfully created')
+        console.log(window.location.host)
+        window.location.href = 'http://'+window.location.host+'/login'
     } else {
-        erreurInput('passwordVerif', false)
-        erreurInput('password', false)
-        alert("Les mots de passe ne correspondent pas !")
+        console.log(result.error)
+        let tmp = result.error
+        tmp.forEach(element=>{
+            inputRouge(element, true)
+        })
     }
 
 }
@@ -75,6 +62,9 @@ async function loginUser(event){
     event.preventDefault()
     const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
+
+    inputRouge("nCarteVitale", false)
+    inputRouge("password", false)
 
     const result = await fetch('/login', {
         method: 'POST',
@@ -89,9 +79,20 @@ async function loginUser(event){
     if(result.status === 'ok'){
         console.log('Got the token: ', result.data)
         localStorage.setItem('token', result.data)
-        window.location.href = 'http://192.168.252.56:3000/pagePerso'
+        window.location.href = 'http://'+window.location.host+'/pagePerso'
     } else {
-        alert(result.error)
+        let tmp = result.error
+        tmp.forEach(element =>{
+            if(elemet = "password" || element == "nCarteVitale"){
+                inputRouge(element, true)
+                document.getElementById(element).style.borderColor = "red";
+            }
+            if(element == "noAccount"){
+                inputRouge("nCarteVitale", true)
+                inputRouge("password", true)
+            }
+            
+        })
     }
 }
 
@@ -196,39 +197,14 @@ if(disco) disco.addEventListener("click", function() {
     console.log(localStorage)
 });
 
-function isName(stringTest){
-    if (stringTest.match(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)){
-        return true
-    }
-    else{
-        return false
-    }
-}
-
-function isNbrVital(stringtest){
-    if(stringtest.match(/^[1|2]([0-9]{2})(0[1-9]|1[0-2]|62|63)(2[ABab]|[0-9]{2})(00[1-9]|0[1-9][0-9]|[1-8][0-9]{2}|9[0-8][0-9]|990)(00[1-9]|0[1-9][0-9]|[1-9][0-9]{2})(0[1-9]|[1-8][0-9]|9[0-7])$/)){
-        return true
-    }
-    else{
-        return false
-    }
-}
-
-function isNbrTel(stringTest){
-    if(stringTest.match(/(0|\\+33|0033)[1-9][0-9]{8}/)){
-        return true
-    }
-    else{
-        return false
-    }
-}
-
-function erreurInput(id, valide){
-    if(valide){
-        document.getElementById(id).removeAttribute("style", "borderColor")
-    }
-    else{
+function inputRouge(id, rouge){
+    if(rouge){
         document.getElementById(id).style.borderColor = "red";
+        document.getElementById(id).style.boxShadow = "0px 0px 5px red";
+    }
+    else{
+        document.getElementById(id).removeAttribute("style", "borderColor")
+        document.getElementById(id).removeAttribute("style", "boxShadow")
     }
 }
 
