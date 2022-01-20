@@ -1,13 +1,32 @@
 let proSante = document.getElementById('proSante')
+let disco = document.getElementById('disconnect')
+let connect = document.getElementById('connect')
+let create = document.getElementById('create')
 let importer = document.getElementById('importer')
 
 if(proSante) proSante.addEventListener("change",  function() {
-    if (importer.style.display == "none"){
-        importer.style.display = "block"
-    } else {
-        importer.style.display = "none"
-    }
+    displaynone(importer)
 })
+
+if(!localStorage.getItem("token")) {
+    disco.parentNode.parentNode.removeChild(disco.parentNode);
+}
+
+if(localStorage.getItem("token")) {
+    connect.parentNode.parentNode.removeChild(connect.parentNode);
+}
+
+if(localStorage.getItem("token")) {
+    create.parentNode.parentNode.removeChild(create.parentNode);
+}
+
+function displaynone(elem){
+    if (elem.style.display == "none"){
+        elem.style.display = "block"
+    } else {
+        elem.style.display = "none"
+    }
+}
 
 let regForm = document.getElementById('regForm')
 if(regForm) regForm.addEventListener('submit', registerUser)
@@ -219,7 +238,7 @@ async function DeclareCasContact(event){
     }
 }
 
-let disco = document.getElementById('disconnect')
+
 
 if(disco) disco.addEventListener("click", function() {
     localStorage.removeItem('token')
