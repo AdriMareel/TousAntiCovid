@@ -1,27 +1,57 @@
+let proSante = document.getElementById('proSante')
+let importer = document.getElementById('importer')
+
+if(proSante) proSante.addEventListener("change",  function() {
+    if (importer.style.display == "none"){
+        importer.style.display = "block"
+    } else {
+        importer.style.display = "none"
+    }
+})
+
 let regForm = document.getElementById('regForm')
 if(regForm) regForm.addEventListener('submit', registerUser)
 
 async function registerUser(event){
     event.preventDefault()
-    const username = document.getElementById('username').value
+    const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
+    const passwordVerif = document.getElementById('passwordVerif').value
+    const nom = document.getElementById('nom').value
+    const prenom = document.getElementById('prenom').value
+    const dNaissance = document.getElementById('dNaissance').value
+    const email = document.getElementById('email').value
+    const nTel = document.getElementById('nTel').value
+    const nivAutorisation = 1
 
+    const tabID = ['nCarteVitale','password','passwordVerif','nom','prenom','dNaissance','email','nTel']
+
+    tabID.forEach(element => {
+        document.getElementById(element).removeAttribute("style", "borderColor")
+    });
+    
     const result = await fetch('/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username, password
+            nCarteVitale, password, passwordVerif, nom, prenom, dNaissance, email, nTel, nivAutorisation
         })
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
-        alert('User successfully created')
+        console.log('User successfully created')
+        console.log(window.location.host)
+        window.location.href = 'http://'+window.location.host+'/login'
     } else {
-        alert(result.error)
+        console.log(result.error)
+        let tmp = result.error
+        tmp.forEach(element=>{
+            document.getElementById(element).style.borderColor = "red";
+        })
     }
-    
+
 }
 
 
@@ -30,7 +60,7 @@ if(logForm) logForm.addEventListener('submit', loginUser)
 
 async function loginUser(event){
     event.preventDefault()
-    const username = document.getElementById('username').value
+    const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
 
     const result = await fetch('/login', {
@@ -39,14 +69,14 @@ async function loginUser(event){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username, password
+            nCarteVitale, password
         })
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
         console.log('Got the token: ', result.data)
         localStorage.setItem('token', result.data)
-        console.log(localStorage, result.data)
+        window.location.href = 'http://'+window.location.host+'/pagePerso'
     } else {
         alert(result.error)
     }
@@ -74,6 +104,8 @@ async function changePassword(event){
 
     if(result.status === 'ok'){
         console.log('Successfully changed the password')
+        // Remove le token lors du changement de mdp pour redirect au login
+        localStorage.removeItem('token')
     } else {
         alert(result.error)
     }
@@ -85,6 +117,70 @@ if(disco) disco.addEventListener("click", function() {
 
     localStorage.removeItem('token');
 
+});
+
+async function addVaccin(event){
+    event.preventDefault()
+    const date = document.getElementById('date').value
+    const nCarteVitale = document.getElementById('nCarteVitale').value
+    const name = document.getElementById('name').value
+
+    const result = await fetch('/vaccin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newdate: date,
+            nCarteVitale: nCarteVitale,
+            name: name,
+            token: localStorage.getItem('token')
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('Ajout d\'un vaccin')
+    } else {
+        alert(result.error)
+    }
+}
+
+
+let addTestUser = document.getElementById('addTestUser')
+if(addTestUser) addTestUser.addEventListener('submit', addTest1)
+
+async function addTest1(event){
+    event.preventDefault()
+    const nCarteVitale = document.getElementById('nCarteVitale').value
+    const date = document.getElementById('date').value
+    const resultat = document.querySelector('input[name=resultat]:checked').value
+    const type = document.getElementById('type').value
+
+    const result = await fetch('/addTestUser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nCarteVitale: nCarteVitale,
+            date: date,
+            resultat: resultat,
+            type: type,
+            token: localStorage.getItem('token')
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('Ajout d\'un test')
+    } else {
+        alert(result.error)
+    }
+}
+
+if(disco) disco.addEventListener("click", function() {
+    localStorage.removeItem('token')
+    // Test contenu localStorage event
+    console.log(localStorage)
 });
 
 function isName(stringTest){
@@ -122,3 +218,6 @@ function erreurInput(id, valide){
         document.getElementById(id).style.borderColor = "red";
     }
 }
+
+// Test contenu localStorage main
+console.log(localStorage)

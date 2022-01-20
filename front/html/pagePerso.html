@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Page Perso - Tous Anti Covid</title>
+	<link rel="stylesheet" type="text/css" href="../css/nav.css">
+	<link rel="stylesheet" type="text/css" href="../css/pagePerso.css">
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+
+	<!-- AOS -->
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+</head>
+<body>
+
+	<script>
+  		AOS.init();
+	</script>
+
+	<nav>
+		<div><img src="../images/logo.png"></div>
+		<ul>
+            <li><a href="register">S'inscrire</a></li>
+            <li><a href="login">Se Connecter</a></li>
+            <li><a href="pagePerso">Particulier</a></li>
+            <li><a href="">Professionnel</a></li>
+            <li><a href="">Scanner un QR Code</a></li>
+        </ul>
+	</nav>
+
+	<h1 class="title" data-aos="fade">Mon compte Tous Anti Covid</h1>
+
+	<div class="wrapper">
+		<div class="left-high" data-aos="fade-down" data-aos-duration="500">
+			<img src="../images/medecin-homme-1.png">
+			<div class="text">
+				<h1>Pas de cas contact détecté dernièrement</h1>
+				<h2>Vous n'êtes pas déclaré à risque pour le moment. Votre schéma vaccinal est complet. Continuez à respecter les gestes barrière et faites vous tester si vous êtes déclaré cas contact. </h2>
+				<p style="font-weight: 100;">Mis à jour le : </p>
+			</div>
+		</div>
+
+
+		<div class="left-bottom-1" data-aos="fade-up" data-aos-delay="500">
+			<div class="text">
+				<h1>Consulter l'historique de mes tests et vaccinations</h1>
+				<h2>Accès aux dates des différents tests PCR et vaccinations passés</h2>
+			</div>
+
+			<button>Accéder</button>
+		</div>
+
+
+		<div class="left-bottom-2" data-aos="fade-up" data-aos-delay="1000">
+			<div class="text">
+				<h1>Se déclarer cas positif</h1>
+				<h2 style="text-align: center;">En cas d'autotest positif, vous devez vous isoler et vous faire tester 5 jours plus tard. En cas de test positif, continuer à s'isoler et faire à nouveau un test 2 jours après</h2>
+			</div>
+
+			<button>Déclarer</button>
+		</div>
+
+		<div class="right" data-aos="fade-left" data-aos-delay="1500">
+			<div>
+				<h1 id="persoNomPrenom">Nom et Prénom</h1>
+				<h2 id="persoDNaissance">Né le XX/XX/XXXX</h2>
+			</div>
+			<div>
+				<img src="../images/QRCodeExample.png" id="qr">
+				<h1 id="persoTypeVaccin">Pfizer-BioNTech</h1>
+				<h2 id="persoDVaccin">Injection le XX/XX/XXXX</h2>
+			</div>
+
+			<button>Télécharger mon QR Code</button>
+			
+		</div>
+
+
+	</div>
+
+	<script src="../js/getInfosUser.js"></script>
+</body>
+</html>

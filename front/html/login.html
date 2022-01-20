@@ -1,24 +1,60 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Page Perso - Tous Anti Covid</title>  
+    <link rel="stylesheet" type="text/css" href="../css/nav.css">
+    <link rel="stylesheet" type="text/css" href="../css/login.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;600;700&display=swap" rel="stylesheet">
 
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-        <title>Tous covidés</title>
-    </head>
-    <body>
-        <h1>Login</h1>
-        <form id="logForm">
-            <input type="text" autocomplete="off" id="username" placeholder="Username"/>
-            <input type="password" autocomplete="off" id="password" placeholder="Password"/>
-            <input type="submit" value="Submit Form"/>
-        </form>
+    <title>Tous covidés</title></head>
+<body>
 
-        <button id = "disconnect"> Disconnect</button>
+	<nav>
+        <div><img src="../images/logo.png"></div>
+        <ul>
+            <li><a href="register">S'inscrire</a></li>
+            <li><a href="login">Se Connecter</a></li>
+            <li><a href="pagePerso">Particulier</a></li>
+            <li><a href="">Professionnel</a></li>
+            <li><a href="">Scanner un QR Code</a></li>
+        </ul>
+    </nav>
 
+    <div class="login">
+    	<h1>Se connecter</h1>
 
-        
-        <script src="../js/main.js"></script>
-    </body>
+    	<form id="logForm">
+    		<div>
+    			<div class="inputBox">
+    				<label>N° de Sécurité Sociale</label>
+                	<input type="text" autocomplete="off" id="nCarteVitale" placeholder="Entrez votre n° de sécu. sociale"/>
+    			</div>
+
+    			<div class="inputBox">
+    				<label>Mot de Passe</label>
+    				<input type="password" name="password" id="password" placeholder="Entrez votre mot de passe">
+    			</div>
+
+    			<div>
+    				<a href="change-password">Changer mon mot de passe</a>
+    			</div>
+    		</div>
+
+    		<div class="center">
+    			<input class="submit" type="submit" name="submit" value="Se connecter">
+    		</div>
+    		
+    	</form>
+    </div>
+    <script src="../js/main.js"></script>
+</body>
 </html>

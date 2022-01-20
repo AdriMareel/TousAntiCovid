@@ -1,30 +1,106 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Page Perso - Tous Anti Covid</title>
+        <link rel="stylesheet" type="text/css" href="../css/nav.css">
+        <link rel="stylesheet" type="text/css" href="../css/login.css">
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;600;700&display=swap" rel="stylesheet">
+
+        <!-- AOS -->
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
         <title>Tous covidés</title>
     </head>
-    <script>
-        console.log(localStorage);
-    </script>
+
     <body>
-        <h1>Register</h1>
-        <form action="/users/register" method="POST">
+
+
+    <nav>
+        <div><img src="../images/logo.png"></div>
+        <ul>
+            <li><a href="register">S'inscrire</a></li>
+            <li><a href="login">Se Connecter</a></li>
+            <li><a href="pagePerso">Particulier</a></li>
+            <li><a href="">Professionnel</a></li>
+            <li><a href="">Scanner un QR Code</a></li>
+        </ul>
+    </nav>
+
+    <div class="login">
+        <h1>Créer un compte</h1>
+        <form id="regForm">
+
         <div>
-            <label for="name">Name</label>
-            <input type="name" name="name" placeholder="Enter Name"/>
+
+            <div class="inputBox">
+                <label>Nom</label>
+                <input type="text" autocomplete="off" id="nom" placeholder="Entrez votre nom"/>
+            </div>
+            
+            <div class="inputBox">
+                <label>Prénom</label>
+                <input type="text" autocomplete="off" id="prenom" placeholder="Entrez votre prénom"/>
+            </div>
+
+            <div class="inputBox">
+                <label>N° de Sécurité Sociale</label>
+                <input type="text" autocomplete="off" id="nCarteVitale" placeholder="Entrez votre n° de sécu. sociale"/>
+            </div>
+
+            <div class="inputBox">
+                <label>Date de Naissance</label>
+                <input type="date" autocomplete="off" id="dNaissance" placeholder="Ex:24/10/1980"/>
+            </div>
+
+            <div class="inputBox">
+                <label>Adresse E-mail</label>
+                <input type="text" id="email" placeholder="example@adresse.com">
+            </div>
+
+            <div class="inputBox">
+                <label>Numéro de Téléphone</label>
+                <input type="text" id="nTel" placeholder="0610203040">
+            </div>
+
+            <div class="inputBox">
+                <label>Mot de Passe</label>
+                <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe">
+            </div>
+
+            <div class="inputBox">
+                <label>Confirmer Mot de Passe</label>
+                <input type="password" name="password" id="passwordVerif" placeholder="Confirmez votre mot de passe">
+            </div>
+
+            <div class="inputBox">
+                <label>Professionnel de santé</label>
+                <input type="checkbox" id="proSante" name="">
+            </div>
+
+            <div class="inputBox" id="importer" style="display:none;">
+                <label>Importer un diplôme</label>
+                <input style="border:none;margin-top: 20px;" type="file" name="">
+            </div>
+
         </div>
-        <div>
-            <label for="email">Email</label>
-            <input type="email" name="email" placeholder="Enter Email"/>
+
+        <div class="center">
+            <input class="submit" type="submit" value="S'inscrire"/>
         </div>
-        <div >
-            <label for="password">Password</label>
-            <input type="password" name="password" placeholder="Create Password"/>
-        </div>
-        <div >
-            <label for="password2">Confirm Password</label>
-            <input type="password" name="password2" placeholder="Confirm Password"/>
-        </div>
-        <button type="submit">Register</button>
+            
+        </form>
+    </div>
+
+        <script>
+            AOS.init();
+        </script>
+        
+        <script src="../js/main.js"></script>
     </body>
 </html>
