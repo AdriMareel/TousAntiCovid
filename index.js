@@ -404,13 +404,13 @@ app.post('/getInfosHisto', async (req, res) => {
         console.log(infoUser)
         
         if(infoUser.vaccins.length != 0){
-            vaccin = infoUser.vaccins[infoUser.vaccins.length]
+            vaccin = infoUser.vaccins
         } else {
             vaccin = ""
         }
 
         if(infoUser.tests.length != 0){
-            test = infoUser.tests[infoUser.vaccins.length]
+            test = infoUser.tests
         } else {
             test = ""
         }
@@ -418,8 +418,8 @@ app.post('/getInfosHisto', async (req, res) => {
         //console.log(qr)
 
         const infoUserToSend = {
-            vaccin: infoUser.vaccins[infoUser.vaccins.length],
-            test: infoUser.tests[infoUser.tests.length]
+            vaccin: vaccin,
+            test: test
         }
         console.log(infoUserToSend)
         res.json({ status: 'ok', data: infoUserToSend })

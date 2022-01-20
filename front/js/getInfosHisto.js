@@ -1,4 +1,6 @@
-async function getInfo(){
+window.onload = getInfoHisto();
+
+async function getInfoHisto(){
     const result = await fetch('/getInfosHisto', {
         method: 'POST',
         headers: {
@@ -10,13 +12,24 @@ async function getInfo(){
         })
     }).then((res) => res.json())
 
-    console.log(result.data)
+    const vaccin = result.data.vaccin;
+    const test = result.data.test;
 
-    const vaccin = result.data.vaccin
-    const test = result.data.test
+    let table = document.getElementById("table");
 
-    document.getElementById('persoNomPrenom').innerHTML = result.data.name + '<br>' + result.data.prenom
-    document.getElementById('persoDNaissance').innerHTML = 'Date de naissance : ' + dNaissance
-    document.getElementById('persoTypeVaccin').innerHTML = result.data.typeVaccin
-    document.getElementById('persoDVaccin').innerHTML = result.data.dateVaccin
+    let i = 1;
+
+    vaccin.forEach(element =>  {
+        table.innerHTML += "<tr><th>"+element.name+"</th><th>"+i+"</th><th>"+element.date+"</th></tr>";
+        i++;
+    });
+
+    console.log(test);
+
+    i = 1;
+    test.forEach(element =>  {
+        table.innerHTML += "<tr><th>"+element.typeTest+"</th><th>"+element.result+"</th><th>"+element.date+"</th></tr>";
+        i++;
+    });
+
 }
