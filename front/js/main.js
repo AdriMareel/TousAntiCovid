@@ -166,8 +166,7 @@ if(addTestUser) addTestUser.addEventListener('submit', addTest1)
 async function addTest1(event){
     event.preventDefault()
     const nCarteVitale = document.getElementById('nCarteVitale').value
-    const date = document.getElementById('date').value
-    const resultat = document.querySelector('input[name=resultat]:checked').value
+    const resultat = document.getElementById('resultat').value
     const type = document.getElementById('type').value
 
     const result = await fetch('/addTestUser', {
@@ -177,7 +176,6 @@ async function addTest1(event){
         },
         body: JSON.stringify({
             nCarteVitale: nCarteVitale,
-            date: date,
             resultat: resultat,
             type: type,
             token: localStorage.getItem('token')

@@ -31,17 +31,17 @@
         </ul>
     </nav>
 
-    <div class="main">
+    <form class="main" id="addTestUser">
     	<h1>Soumettre un résultat de test</h1>
 
     	<div class="inputBox">
     		<label>N° de Sécu du patient</label>
-    		<input type="text" placeholder="Entrez le numéro de Sécurité">
+    		<input type="text" placeholder="Entrez le numéro de Sécurité"  id="nCarteVitale">
     	</div>
 
     	<div class="inputBox">
     		<label>Résultat du test du patient</label>
-    		<select>
+    		<select id="resultat">
     			<option value="negatif">Négatif</option>
     			<option value="positif">Positif</option>
     		</select>
@@ -49,19 +49,19 @@
 
     	<div class="inputBox">
     		<label>Type de test</label>
-    		<select>
+    		<select id="type">
     			<option value="">Entrer un type</option>
-    			<option value="PCR">PCR</option>
-    			<option value="anitgénique">Antigénique</option>
+    			<option value="pcr">PCR</option>
+    			<option value="antig">Antigénique</option>
     		</select>
     	</div>
 
     	<div>
-    		<input type="submit" name="">
+    		<input type="submit" value="Declare_user">
     	</div>
     	
 
-    </div>
-
+    </form>
+    <script src="../js/main.js"></script>
 </body>
 </html>

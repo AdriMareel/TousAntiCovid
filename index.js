@@ -11,8 +11,8 @@ const ToQRCode = require('./back/modules/toQRCode.js')
 
 const JWT_SECRET = 'zekljazifjziogjaioeh8O34U_hhozreuhuhu_8_çt_7T8gf'
 
-// mongodb+srv://<username>:<password>@data.tr5qe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 const mongodb = 'mongodb+srv://admin:admin@datacovid.gqdpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+//const mongodb = 'mongodb+srv://admin:admin@datacovid.gqdpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 //const mongodb = 'mongodb://Admin:Admin123@192.168.252.87:27017/covid_data?authSource=admin';
 mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
     //.then((result) => app.listen(3000))
@@ -249,7 +249,9 @@ app.post('/vaccin', async (req, res) => {
 app.post('/addTestUser', async (req, res) => {
 
     // Get user input
-    const {nCarteVitale, date, resultat, type, token } = req.body
+    const {nCarteVitale, resultat, type, token } = req.body
+    let date = new Date()
+        date = date.getFullYear()+"-"+date.getMonth()+1+"-"+date.getDate()
 
     // Validate user input
     if (!nCarteVitale || typeof nCarteVitale != 'string') {
@@ -267,7 +269,7 @@ app.post('/addTestUser', async (req, res) => {
     if (!user) {
         return res.json({
             status: 'error',
-            error: 'Invalid username/password'
+            error: 'Vous n\'êtes pas connecté.e'
         })
     }
 
