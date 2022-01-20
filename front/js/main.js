@@ -22,7 +22,12 @@ async function registerUser(event){
     const dNaissance = document.getElementById('dNaissance').value
     const email = document.getElementById('email').value
     const nTel = document.getElementById('nTel').value
-    const nivAutorisation = 1
+    let nivAutorisation
+    if(document.getElementById('proSante').checked == true) {
+        nivAutorisation = 2
+    } else {
+        nivAutorisation = 1
+    }
 
     const tabID = ['nCarteVitale','password','passwordVerif','nom','prenom','dNaissance','email','nTel']
 
@@ -133,10 +138,11 @@ if(disco) disco.addEventListener("click", function() {
 
 });
 
-let addVacc = document.getElementById('addVaccinForm')
-if(addVacc) addVacc.addEventListener('submit', addVaccin)
+let addVaccinForm = document.getElementById('addVaccinForm')
+if(addVaccinForm) addVaccinForm.addEventListener('submit', addVaccin)
 
 async function addVaccin(event){
+    console.log("test")
     event.preventDefault()
     const nCarteVitale = document.getElementById('nCarteVitale').value
     const name = document.getElementById('name').value
@@ -189,6 +195,38 @@ async function addTest1(event){
         alert(result.error)
     }
 }
+
+let CasContact = document.getElementById('CasContact')
+if(CasContact) CasContact.addEventListener('submit', DeclareCasContact)
+
+async function DeclareCasContact(event){
+    event.preventDefault()
+
+    const nCarteVitale = document.getElementById('nCarteVitale').value
+    console.log(document.getElementById('nCarteVitale').value)
+    const nom = document.getElementById('nom').value
+    const prenom = document.getElementById('prenom').value
+
+    const result = await fetch('/CasContact', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nCarteVitale: nCarteVitale,
+            nom: nom,
+            prenom: prenom,
+            token: localStorage.getItem('token')
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('Ajout de cas contact')
+    } else {
+        alert(result.error)
+    }
+}
+
 
 if(disco) disco.addEventListener("click", function() {
     localStorage.removeItem('token')
