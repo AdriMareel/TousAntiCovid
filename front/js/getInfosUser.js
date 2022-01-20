@@ -25,6 +25,9 @@ async function getInfo(){
     const typeVaccin = result.data.typeVaccin
     const dateVaccin = result.data.dateVaccin
     const urlQrCode = result.data.urlQrCode
+    const tabVaccin = result.data.tabVaccin
+    const tabTest = result.data.tabTest
+    const tabContact = result.data.tabContact
 
     nameFileQrCode = 'qrcode_' + dateVaccin + '.pdf' 
 

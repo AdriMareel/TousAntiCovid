@@ -348,16 +348,30 @@ app.post('/getInfo', async (req, res) => {
         let typeVaccin
         let dateVaccin
         let urlQrCode
+        let tabVaccin
         if(infoUser.vaccins.length != 0){
             typeVaccin = infoUser.vaccins[infoUser.vaccins.length - 1].name
             dateVaccin = infoUser.vaccins[infoUser.vaccins.length - 1].date
             urlQrCode = 'http://'+url+'/VerifPasse?'+infoUser.nCarteVitale
+            tabVaccin = infoUser.vaccins
         } else {
             typeVaccin = ""
             dateVaccin = ""
             urlQrCode = ""
+            tabVaccin = ""
         }
-
+        let tabTest
+        if(infoUser.tests.length != 0){
+            tabTest = infoUser.tests
+        } else {
+            tabTest = ""
+        }
+        let tabContact
+        if(infoUser.contacts.length != 0){
+            tabContact = infoUser.contacts
+        } else {
+            tabContact = ""
+        }
         //const qr = ToQRCode('http://'+url+'/VerifPasse?'+infoUser.nCarteVitale)
         //console.log(qr)
 
@@ -367,7 +381,10 @@ app.post('/getInfo', async (req, res) => {
             dNaissance: infoUser.dNaissance,
             typeVaccin: typeVaccin,
             dateVaccin: dateVaccin,
-            urlQrCode: urlQrCode
+            urlQrCode: urlQrCode,
+            tabVaccin: tabVaccin,
+            tabTest: tabTest,
+            tabContact: tabContact
         }
         console.log(infoUserToSend)
         res.json({ status: 'ok', data: infoUserToSend })
