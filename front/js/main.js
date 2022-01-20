@@ -27,7 +27,7 @@ async function registerUser(event){
     const tabID = ['nCarteVitale','password','passwordVerif','nom','prenom','dNaissance','email','nTel']
 
     tabID.forEach(element => {
-        document.getElementById(element).removeAttribute("style", "borderColor")
+        inputRouge(element, false);
     });
     
     const result = await fetch('/register', {
@@ -48,7 +48,7 @@ async function registerUser(event){
         console.log(result.error)
         let tmp = result.error
         tmp.forEach(element=>{
-            document.getElementById(element).style.borderColor = "red";
+            inputRouge(element, true)
         })
     }
 
@@ -62,6 +62,9 @@ async function loginUser(event){
     event.preventDefault()
     const nCarteVitale = document.getElementById('nCarteVitale').value
     const password = document.getElementById('password').value
+
+    inputRouge("nCarteVitale", false)
+    inputRouge("password", false)
 
     const result = await fetch('/login', {
         method: 'POST',
@@ -78,7 +81,18 @@ async function loginUser(event){
         localStorage.setItem('token', result.data)
         window.location.href = 'http://'+window.location.host+'/pagePerso'
     } else {
-        alert(result.error)
+        let tmp = result.error
+        tmp.forEach(element =>{
+            if(elemet = "password" || element == "nCarteVitale"){
+                inputRouge(element, true)
+                document.getElementById(element).style.borderColor = "red";
+            }
+            if(element == "noAccount"){
+                inputRouge("nCarteVitale", true)
+                inputRouge("password", true)
+            }
+            
+        })
     }
 }
 
@@ -183,39 +197,14 @@ if(disco) disco.addEventListener("click", function() {
     console.log(localStorage)
 });
 
-function isName(stringTest){
-    if (stringTest.match(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)){
-        return true
-    }
-    else{
-        return false
-    }
-}
-
-function isNbrVital(stringtest){
-    if(stringtest.match(/^[1|2]([0-9]{2})(0[1-9]|1[0-2]|62|63)(2[ABab]|[0-9]{2})(00[1-9]|0[1-9][0-9]|[1-8][0-9]{2}|9[0-8][0-9]|990)(00[1-9]|0[1-9][0-9]|[1-9][0-9]{2})(0[1-9]|[1-8][0-9]|9[0-7])$/)){
-        return true
-    }
-    else{
-        return false
-    }
-}
-
-function isNbrTel(stringTest){
-    if(stringTest.match(/(0|\\+33|0033)[1-9][0-9]{8}/)){
-        return true
-    }
-    else{
-        return false
-    }
-}
-
-function erreurInput(id, valide){
-    if(valide){
-        document.getElementById(id).removeAttribute("style", "borderColor")
-    }
-    else{
+function inputRouge(id, rouge){
+    if(rouge){
         document.getElementById(id).style.borderColor = "red";
+        document.getElementById(id).style.boxShadow = "0px 0px 5px red";
+    }
+    else{
+        document.getElementById(id).removeAttribute("style", "borderColor")
+        document.getElementById(id).removeAttribute("style", "boxShadow")
     }
 }
 

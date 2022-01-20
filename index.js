@@ -89,15 +89,27 @@ app.post('/change-password', async (req, res) => {
 app.post('/login', async (req, res) => {
     // Get user input
     const { nCarteVitale, password } = req.body
+    let tabErreur = new Array()
 
     // Find username in database
     const user = await User.findOne({ nCarteVitale }).lean()
 
     // If user exist
     if(!user){
+        tabErreur.push('noAccount')
+    }
+    if(!isNbrVital(nCarteVitale)){
+        tabErreur.push('nCarteVitale')
+    }
+    if(!password){
+        tabErreur.push('password')
+    }
+
+    if(tabErreur.length != 0){
+        console.log(tabErreur)
         return res.json({ 
             status: 'error', 
-            error: 'Invalid username/password'
+            error: tabErreur
         })
     }
 
@@ -129,6 +141,9 @@ app.post('/register', async (req, res) => {
     let tabErreur = new Array();
     // Validate user input
     // à ajouter : nom, prenom, dNaissance, email, nTel, nivAutorisation
+    if(!dNaissance){
+        tabErreur.push("dNaissance")
+    }
     if(!nom || typeof nom != 'string' || !isName(nom)){
         tabErreur.push('nom')
     }
@@ -147,7 +162,7 @@ app.post('/register', async (req, res) => {
     if(!plainTextPassword || typeof plainTextPassword != 'string' || plainTextPassword.length < 6){
         tabErreur.push('password') 
     }
-    if(plainTextPassword != plainTextPasswordVerif){
+    if(plainTextPassword != plainTextPasswordVerif || !plainTextPasswordVerif){
         tabErreur.push('passwordVerif') 
     }
 
