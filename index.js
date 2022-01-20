@@ -394,6 +394,40 @@ app.post('/getInfo', async (req, res) => {
     }
 })
 
+app.post('/getInfosHisto', async (req, res) => {
+    const { token, url } = req.body
+    try{
+        const user = jwt.verify(token, JWT_SECRET)
+        //console.log(user)
+        const _id = user.id
+        const infoUser = await User.findOne({ _id })
+        console.log(infoUser)
+        
+        if(infoUser.vaccins.length != 0){
+            vaccin = infoUser.vaccins[infoUser.vaccins.length]
+        } else {
+            vaccin = ""
+        }
+
+        if(infoUser.tests.length != 0){
+            test = infoUser.tests[infoUser.vaccins.length]
+        } else {
+            test = ""
+        }
+        //const qr = ToQRCode('http://'+url+'/VerifPasse?'+infoUser.nCarteVitale)
+        //console.log(qr)
+
+        const infoUserToSend = {
+            vaccin: infoUser.vaccins[infoUser.vaccins.length],
+            test: infoUser.tests[infoUser.tests.length]
+        }
+        console.log(infoUserToSend)
+        res.json({ status: 'ok', data: infoUserToSend })
+    }
+    catch(error){
+        res.json({ status: 'error', error: '(:'})
+    }
+})
 
 // DECLARE CAS CONTACT
 // Add Test User
