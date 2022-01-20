@@ -62,7 +62,7 @@ app.get('/addTestUser', (req, res) => {
     res.sendFile(__dirname + '/front/html/addTestUser.html')
 })
 
-app.get('/pass', (req, res) => {
+app.get('/VerifPasse', (req, res) => {
     res.sendFile(__dirname + '/front/html/VerifPasse.html')
 })
 
