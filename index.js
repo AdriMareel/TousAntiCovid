@@ -218,7 +218,10 @@ app.post('/register', async (req, res) => {
 app.post('/vaccin', async (req, res) => {
 
     // Get user input
-    const { token, nCarteVitale, newdate, name } = req.body
+    const { token, nCarteVitale, name } = req.body
+
+    let newdate = new Date()
+        newdate = newdate.getFullYear()+"-"+newdate.getMonth()+1+"-"+newdate.getDate()
 
     // Validate user input
     if (!nCarteVitale || typeof nCarteVitale != 'string') {

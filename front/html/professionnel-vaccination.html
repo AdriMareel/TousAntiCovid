@@ -31,16 +31,16 @@
         </ul>
     </nav>
 
-    <div class="main">
+    <form class="main" id="addVaccinForm">
     	<h1>Soumettre une vaccination</h1>
     	<div class="inputBox">
     		<label>N° de Sécu du patient</label>
-    		<input type="text">
+    		<input type="text" id="nCarteVitale">
     	</div>
 
     	<div class="inputBox">
     		<label>Nom du vaccin</label>
-    		<select>
+    		<select  id="name">
     			<option value="">Choisir un vaccin</option>
     			<option value="pfizer">Pfizer</option>
     			<option value="astraZeneca">AstraZeneca</option>
@@ -50,10 +50,11 @@
     	</div>
     	
     	<div>
-    		<input type="submit" value="Submit">
+    		<input type="submit"  value="Ajouter">
     	</div>
     	
-    </div>
+    </form>
 
+    <script src="../js/main.js"></script>
 </body>
 </html>

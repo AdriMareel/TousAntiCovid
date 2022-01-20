@@ -133,9 +133,11 @@ if(disco) disco.addEventListener("click", function() {
 
 });
 
+let addVacc = document.getElementById('addVaccinForm')
+if(addVacc) addVacc.addEventListener('submit', addVaccin)
+
 async function addVaccin(event){
     event.preventDefault()
-    const date = document.getElementById('date').value
     const nCarteVitale = document.getElementById('nCarteVitale').value
     const name = document.getElementById('name').value
 
@@ -145,7 +147,6 @@ async function addVaccin(event){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            newdate: date,
             nCarteVitale: nCarteVitale,
             name: name,
             token: localStorage.getItem('token')
