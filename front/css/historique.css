@@ -1,0 +1,29 @@
+table{
+	margin: 20px auto;
+	border-collapse: collapse;
+	border: solid black 1px;
+}
+
+thead tr{
+	background-color: #222;
+}
+
+thead tr th{
+	color: white;
+}
+
+th{
+	padding: 20px;
+	border: solid black 2px;
+	border-collapse: collapse;
+}
+
+
+tbody tr{
+	background-color: #172c6d;
+}
+
+tbody tr:nth-child(even){background: #396afc;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
