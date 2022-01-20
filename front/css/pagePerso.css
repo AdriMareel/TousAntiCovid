@@ -120,15 +120,12 @@
 	padding: 10px 20px;
 	border: none;
 	height: 50px;
-	background-color: #FFAFBD;
+	background-color: #ccc;
 	cursor: pointer;
 	text-align: center;
 	transform: scale(0.8);
-}
-
-.left-bottom-2 button:hover{
-	transform: scale(0.9);
-	transition: 0.5s ease;
+	pointer-events: none;
+	
 }
 
 .left-bottom-2 .text{
@@ -177,4 +174,9 @@
 
 .right button:hover{
 	transform: scale(1.05);
+}
+
+.notHover{
+	color: grey;
+	background-color: #CCC;
 }
