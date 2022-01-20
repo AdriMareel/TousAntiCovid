@@ -88,7 +88,7 @@ async function loginUser(event){
     } else {
         let tmp = result.error
         tmp.forEach(element =>{
-            if(elemet = "password" || element == "nCarteVitale"){
+            if(element == "password" || element == "nCarteVitale"){
                 inputRouge(element, true)
                 document.getElementById(element).style.borderColor = "red";
             }
