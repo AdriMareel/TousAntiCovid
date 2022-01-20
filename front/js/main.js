@@ -44,7 +44,7 @@ async function registerUser(event){
                     if(result.status === 'ok'){
                         console.log('User successfully created')
                         console.log(window.location.host)
-                        window.location.href = 'http://192.168.252.56:3000/login'
+                        window.location.href = 'http://'+window.location.host+'/login'
                     } else {
                         alert(result.error)
                     }
@@ -90,7 +90,7 @@ async function loginUser(event){
     if(result.status === 'ok'){
         console.log('Got the token: ', result.data)
         localStorage.setItem('token', result.data)
-        window.location.href = 'http://192.168.252.56:3000/pagePerso'
+        window.location.href = 'http://'+window.location.host+'/pagePerso'
     } else {
         alert(result.error)
     }

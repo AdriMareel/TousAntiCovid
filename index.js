@@ -5,15 +5,15 @@ const mongoose = require('mongoose')
 const User = require('./back/model/user') 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const ToQRCode = require('./back/modules/toQRCode.js');
+const ToQRCode = require('./back/modules/toQRCode.js')
 
 
 
 const JWT_SECRET = 'zekljazifjziogjaioeh8O34U_hhozreuhuhu_8_çt_7T8gf'
 
 // mongodb+srv://<username>:<password>@data.tr5qe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
-//const mongodb = 'mongodb+srv://admin:admin@datacovid.gqdpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-const mongodb = 'mongodb://Admin:Admin123@192.168.252.87:27017/covid_data?authSource=admin';
+const mongodb = 'mongodb+srv://admin:admin@datacovid.gqdpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+//const mongodb = 'mongodb://Admin:Admin123@192.168.252.87:27017/covid_data?authSource=admin';
 mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
     //.then((result) => app.listen(3000))
     .then((result) => console.log("connected to database"))
@@ -254,20 +254,6 @@ app.post('/addTestUser', async (req, res) => {
 
 })
 
-app.listen(3000, () => {
-    console.log('Server up at 3000')
-})
-
-// Test génération QR code
-ToQRCode("zzzzzz")
-
-
-// Test ajout d'un vaccin à l'user connecté
-
-
-
-
-
 app.post('/verify', async (req, res) => {
     const { token, nCarteVitale } = req.body
     const user = await User.findOne({ nCarteVitale }).lean()
@@ -296,3 +282,47 @@ app.post('/verify', async (req, res) => {
         res.json({ status: 'inconnu' })
     } 
 })
+
+
+app.post('/getInfo', async (req, res) => {
+    const { token, url } = req.body
+    try{
+        const user = jwt.verify(token, JWT_SECRET)
+        //console.log(user)
+        const _id = user.id
+        const infoUser = await User.findOne({ _id })
+        console.log(infoUser)
+        let typeVaccin
+        let dateVaccin
+        if(infoUser.vaccins.length != 0){
+            typeVaccin = infoUser.vaccins[infoUser.vaccins.length - 1].name
+            dateVaccin = infoUser.vaccins[infoUser.vaccins.length - 1].date
+        } else {
+            typeVaccin = ""
+            dateVaccin = ""
+        }
+
+        const qr = ToQRCode('http://'+url+'/VerifPasse?'+infoUser.nCarteVitale)
+        console.log(qr)
+
+        const infoUserToSend = {
+            name: infoUser.nom,
+            prenom: infoUser.prenom,
+            dNaissance: infoUser.dNaissance,
+            typeVaccin: typeVaccin,
+            dateVaccin: dateVaccin
+        }
+        console.log(infoUserToSend)
+        res.json({ status: 'ok', data: infoUserToSend })
+    }
+    catch(error){
+        res.json({ status: 'error', error: '(:'})
+    }
+})
+
+app.listen(3000, () => {
+    console.log('Server up at 3000')
+})
+
+// Test génération QR code
+//ToQRCode('http://'+window.location.host+'/VerifPasse?' + 'zzzzzz')
