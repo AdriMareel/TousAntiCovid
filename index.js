@@ -42,6 +42,10 @@ app.get('/professionnel/test', (req, res) => {
     res.sendFile(__dirname + '/front/html/professionnel-test.html')
 })
 
+app.get('/pagePerso/historique', (req, res) => {
+    res.sendFile(__dirname + '/front/html/historique.html')
+})
+
 
 app.get('/register', (req, res) => {
     res.sendFile(__dirname + '/front/html/register.html')
