@@ -49,7 +49,7 @@ async function getInfo(){
 
     pdf.addImage(imgBase64Data, 'png', 0, 0, 150, 150);
 
-    document.getElementById('persoNomPrenom').innerHTML = result.data.prenom + ' ' + result.data.prenom
+    document.getElementById('persoNomPrenom').innerHTML = result.data.name + '<br>' + result.data.prenom
     document.getElementById('persoDNaissance').innerHTML = 'Date de naissance : ' + dNaissance
     document.getElementById('persoTypeVaccin').innerHTML = result.data.typeVaccin
     document.getElementById('persoDVaccin').innerHTML = result.data.dateVaccin
