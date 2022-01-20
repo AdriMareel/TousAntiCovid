@@ -336,6 +336,54 @@ app.post('/verify', async (req, res) => {
     } 
 })
 
+app.post('/autorisation', async (req, res) => {
+    const { token, page } = req.body
+    let nivAuto
+    try{
+        const user = jwt.verify(token, JWT_SECRET)
+        //console.log(user)
+        const _id = user.id
+        const infoUser = await User.findOne({ _id })
+        console.log(infoUser)
+
+        nivAuto = infoUser.nivAutorisation
+
+        console.log(nivAuto)
+    }
+    catch(error){
+        nivAuto = 0
+    }
+    if(page == "pagePerso"){
+        if(nivAuto < 1){
+            res.json({ status: 'pas ok'})
+        }
+    }        
+    else if(page == "historique"){
+        if(nivAuto < 1){
+            res.json({ status: 'pas ok'})
+        }
+    }
+    else if(page == "professionnel"){
+        if(nivAuto < 2){
+            res.json({ status: 'pas ok'})
+        }
+    }
+    else if(page == "test"){
+        if(nivAuto < 2){
+            res.json({ status: 'pas ok'})
+        }
+    }
+    else if(page == "vaccin"){
+        if(nivAuto < 2){
+            res.json({ status: 'pas ok'})
+        }
+    }
+    else {
+        res.json({ status: 'ok'})
+    }
+
+})
+
 
 app.post('/getInfo', async (req, res) => {
     const { token, url } = req.body

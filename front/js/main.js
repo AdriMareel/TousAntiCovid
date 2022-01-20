@@ -4,6 +4,30 @@ let connect = document.getElementById('connect')
 let create = document.getElementById('create')
 let importer = document.getElementById('importer')
 
+autorisation()
+
+async function autorisation(){
+    const result = await fetch('/autorisation', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: localStorage.getItem('token'),
+            page: window.location.href.split('/').pop()
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        // passe
+    } 
+    if(result.status === 'pas ok'){
+        // passe pas
+        window.location.href = "../../"
+        alert('vous n\'avez pas accès à cette zone !')
+    }
+}
+
 if(proSante) proSante.addEventListener("change",  function() {
     displaynone(importer)
 })
