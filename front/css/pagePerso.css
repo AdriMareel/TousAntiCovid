@@ -180,3 +180,22 @@
 	color: grey;
 	background-color: #CCC;
 }
+
+@media screen and (max-width: 1000px){
+	.wrapper{
+		display: flex;
+		flex-direction: column;
+	}
+
+	.left-high img{
+		display: none;
+	}
+
+	ul li{
+		display: none;
+	}
+
+	button{
+		margin-bottom: 20px;
+	}
+}
