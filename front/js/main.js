@@ -227,6 +227,7 @@ async function DeclareCasContact(event){
     }
 }
 
+let disco = document.getElementById('disconnect')
 
 if(disco) disco.addEventListener("click", function() {
     localStorage.removeItem('token')
