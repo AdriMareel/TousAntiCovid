@@ -62,6 +62,10 @@ app.get('/addTestUser', (req, res) => {
     res.sendFile(__dirname + '/front/html/addTestUser.html')
 })
 
+app.get('/verifPasse', (req, res) => {
+    res.sendFile(__dirname + '/front/html/VerifPasse.html')
+})
+
 app.use(bodyParser.json())
 
 app.post('/change-password', async (req, res) => {
@@ -255,7 +259,40 @@ app.listen(3000, () => {
 })
 
 // Test génération QR code
-//ToQRCode("1019238923758457")
+ToQRCode("zzzzzz")
 
 
 // Test ajout d'un vaccin à l'user connecté
+
+
+
+
+
+app.post('/verify', async (req, res) => {
+    const { token, nCarteVitale } = req.body
+    const user = await User.findOne({ nCarteVitale }).lean()
+    //console.log(nCarteVitale)
+    if(user) {
+        console.log(user.vaccins.length)
+        if(user.vaccins.length != 0){
+            const dateVaccin = Date.parse(user.vaccins[user.vaccins.length - 1].date)
+            const date = new Date()
+            console.log(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate())
+            const dateNow = Date.parse(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate())
+
+            console.log(dateNow + ' = date maintenant')
+            console.log(dateVaccin + ' = date dernier vaccin')
+            console.log((dateNow - dateVaccin)/(3600*24*1000))
+            if((dateNow - dateVaccin)/(3600*24*1000) < 14 || (dateNow - dateVaccin)/(3600*24*1000) > 7*31){
+                res.json({ status: 'pas ok' })
+            } else {
+                res.json({ status: 'ok' })
+            }
+        } else {
+            res.json({ status: 'pas ok' })
+        }
+    }
+    if(!user) {
+        res.json({ status: 'inconnu' })
+    } 
+})
