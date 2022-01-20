@@ -22,7 +22,12 @@ async function registerUser(event){
     const dNaissance = document.getElementById('dNaissance').value
     const email = document.getElementById('email').value
     const nTel = document.getElementById('nTel').value
-    const nivAutorisation = 1
+    let nivAutorisation
+    if(document.getElementById('proSante').checked == true) {
+        nivAutorisation = 2
+    } else {
+        nivAutorisation = 1
+    }
 
     if (password == passwordVerif) {
         if (isName(nom)) {
