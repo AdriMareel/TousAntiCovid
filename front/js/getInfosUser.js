@@ -39,7 +39,7 @@ async function getInfo(){
         text: urlQrCode,
         width: 128,
         height: 128,
-        colorDark : "#5868bf",
+        colorDark : "#000000",
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
     });

@@ -346,36 +346,32 @@ app.post('/getInfo', async (req, res) => {
 // DECLARE CAS CONTACT
 // Add Test User
 app.post('/CasContact', async (req, res) => {
-
     // Get user input
-    const {newTab, token } = req.body
-    console.log("test")
-    if(newTab.length !== 0){
-        console.log(newTab)
-        for(let i = 0; i < newTab.length-1; i+3){
-            // Find username in database
-            const user = await User.findOne({ nCarteVitale: newTab[i+2] }).lean()
-            // Si pas de compte, création dans BDD
-            if(!user){
-                // Try to create user in the database
-                    const response = await User.create({
-                        nCarteVitale: newTab[i+2],
-                        password: "",
-                        nom: newTab[i+1],
-                        prenom: newTab[i],
-                        dNaissance: "",
-                        email: "",
-                        nTel: "",
-                        CasContact: newTab[newTab.length]
-                    })
-                    console.log('User created successfully: ', response)
-                    res.json({ status: 'ok' })
-            }
-            else{
-                await User.updateOne({ nCarteVitale: newTab[i+2] }, { $addToSet: { CasContact: newTab[newTab.length] }})
-                res.json({ status: 'ok' })
-            }
-        }
+    const {nCarteVitale, nom, prenom, token } = req.body
+    console.log(nCarteVitale + ' iindex')
+    const user = await User.findOne({ nCarteVitale }).lean()
+    // Si pas de compte, création dans BDD
+    console.log(user)
+    if(!user){
+        // Try to create user in the database
+        const response = await User.create({
+            nCarteVitale: nCarteVitale,
+            password: "0",
+            nom: nom,
+            prenom: prenom,
+            dNaissance: "0",
+            email: "0",
+            nTel: "0",
+            nivAutorisation: 1
+        })
+        console.log('User created successfully: ', response)
+        res.json({ status: 'ok' })
+    }
+    else{
+        let date = new Date()
+        date = date.getFullYear()+"-"+date.getMonth()+1+"-"+date.getDate()
+        await User.updateOne({ nCarteVitale }, { $addToSet: {contacts: { date: date }}})
+        res.json({ status: 'ok' })
     }
 })
 

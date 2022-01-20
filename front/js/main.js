@@ -204,9 +204,12 @@ let CasContact = document.getElementById('CasContact')
 if(CasContact) CasContact.addEventListener('submit', DeclareCasContact)
 
 async function DeclareCasContact(event){
-    submit();
     event.preventDefault()
 
+    const nCarteVitale = document.getElementById('nCarteVitale').value
+    console.log(document.getElementById('nCarteVitale').value)
+    const nom = document.getElementById('nom').value
+    const prenom = document.getElementById('prenom').value
 
     const result = await fetch('/CasContact', {
         method: 'POST',
@@ -214,7 +217,9 @@ async function DeclareCasContact(event){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            newTab: infoCasContact,
+            nCarteVitale: nCarteVitale,
+            nom: nom,
+            prenom: prenom,
             token: localStorage.getItem('token')
         })
     }).then((res) => res.json())
