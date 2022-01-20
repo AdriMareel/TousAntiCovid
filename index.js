@@ -66,6 +66,10 @@ app.get('/verifPasse', (req, res) => {
     res.sendFile(__dirname + '/front/html/VerifPasse.html')
 })
 
+app.get('/CasContact', (req, res) => {
+    res.sendFile(__dirname + '/front/html/CasContact.html')
+})
+
 app.use(bodyParser.json())
 
 app.post('/change-password', async (req, res) => {
@@ -150,41 +154,55 @@ app.post('/register', async (req, res) => {
     // Encrypt user password
     const password = await bcrypt.hash(plainTextPassword, 10)
 
+    // Find username in database
+    const user = await User.findOne({ nCarteVitale }).lean()
+
+    // If user not exist
+    if (!user) {
+            
+
     // Try to create user in the database
-    try {
-        const response = await User.create({
-            nCarteVitale,
-            password,
-            nom,
-            prenom,
-            dNaissance,
-            email,
-            nTel,
-            nivAutorisation
-        })
-        console.log('User created successfully: ', response)
-
-        // Create token
-        const token = jwt.sign({ 
-            id: response._id, 
-            nCarteVitale: response.nCarteVitale 
-        }, 
-        JWT_SECRET
-        )
-
-        res.json({ 
-            status: 'ok',
-            data: token
-        })
-
-    } catch(error){
-        if(error.code === 11000){
-            return res.json({ 
-                status: 'error', 
-                error: 'Username already used'
+        try {
+            const response = await User.create({
+                nCarteVitale,
+                password,
+                nom,
+                prenom,
+                dNaissance,
+                email,
+                nTel,
+                nivAutorisation
             })
+            console.log('User created successfully: ', response)
+
+            // Create token
+            const token = jwt.sign({ 
+                id: response._id, 
+                nCarteVitale: response.nCarteVitale 
+            }, 
+            JWT_SECRET
+            )
+
+            res.json({ 
+                status: 'ok',
+                data: token
+            })
+
+        } catch(error){
+            if(error.code === 11000){
+                return res.json({ 
+                    status: 'error', 
+                    error: 'Username already used'
+                })
+            }
+            throw error
         }
-        throw error
+    }
+
+    else{
+            const response = await User.updateOne({ nCarteVitale }, {$set: { password, nom, prenom, dNaissance, email, nTel, nivAutorisation } })
+            res.json({ status: 'ok' })
+            console.log('User changed successfully: ', response)
     }
 })
 
@@ -317,6 +335,43 @@ app.post('/getInfo', async (req, res) => {
     }
     catch(error){
         res.json({ status: 'error', error: '(:'})
+    }
+})
+
+
+// DECLARE CAS CONTACT
+// Add Test User
+app.post('/CasContact', async (req, res) => {
+
+    // Get user input
+    const {newTab, token } = req.body
+    console.log("test")
+    if(newTab.length !== 0){
+        console.log(newTab)
+        for(let i = 0; i < newTab.length-1; i+3){
+            // Find username in database
+            const user = await User.findOne({ nCarteVitale: newTab[i+2] }).lean()
+            // Si pas de compte, création dans BDD
+            if(!user){
+                // Try to create user in the database
+                    const response = await User.create({
+                        nCarteVitale: newTab[i+2],
+                        password: "",
+                        nom: newTab[i+1],
+                        prenom: newTab[i],
+                        dNaissance: "",
+                        email: "",
+                        nTel: "",
+                        CasContact: newTab[newTab.length]
+                    })
+                    console.log('User created successfully: ', response)
+                    res.json({ status: 'ok' })
+            }
+            else{
+                await User.updateOne({ nCarteVitale: newTab[i+2] }, { $addToSet: { CasContact: newTab[newTab.length] }})
+                res.json({ status: 'ok' })
+            }
+        }
     }
 })
 

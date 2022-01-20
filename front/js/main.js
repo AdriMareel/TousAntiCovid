@@ -191,6 +191,33 @@ async function addTest1(event){
     }
 }
 
+let CasContact = document.getElementById('CasContact')
+if(CasContact) CasContact.addEventListener('submit', DeclareCasContact)
+
+async function DeclareCasContact(event){
+    submit();
+    event.preventDefault()
+
+
+    const result = await fetch('/CasContact', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newTab: infoCasContact,
+            token: localStorage.getItem('token')
+        })
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+        console.log('Ajout de cas contact')
+    } else {
+        alert(result.error)
+    }
+}
+
+
 if(disco) disco.addEventListener("click", function() {
     localStorage.removeItem('token')
     // Test contenu localStorage event
