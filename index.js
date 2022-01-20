@@ -66,6 +66,10 @@ app.get('/pass', (req, res) => {
     res.sendFile(__dirname + '/front/html/VerifPasse.html')
 })
 
+app.get('/CasContact', (req, res) => {
+    res.sendFile(__dirname + '/front/html/CasContact.html')
+})
+
 app.use(bodyParser.json())
 
 app.post('/change-password', async (req, res) => {
@@ -176,41 +180,55 @@ app.post('/register', async (req, res) => {
     // Encrypt user password
     const password = await bcrypt.hash(plainTextPassword, 10)
 
+    // Find username in database
+    const user = await User.findOne({ nCarteVitale }).lean()
+
+    // If user not exist
+    if (!user) {
+            
+
     // Try to create user in the database
-    try {
-        const response = await User.create({
-            nCarteVitale,
-            password,
-            nom,
-            prenom,
-            dNaissance,
-            email,
-            nTel,
-            nivAutorisation
-        })
-        console.log('User created successfully: ', response)
-
-        // Create token
-        const token = jwt.sign({ 
-            id: response._id, 
-            nCarteVitale: response.nCarteVitale 
-        }, 
-        JWT_SECRET
-        )
-
-        res.json({ 
-            status: 'ok',
-            data: token
-        })
-
-    } catch(error){
-        if(error.code === 11000){
-            return res.json({ 
-                status: 'error', 
-                error: 'Username already used'
+        try {
+            const response = await User.create({
+                nCarteVitale,
+                password,
+                nom,
+                prenom,
+                dNaissance,
+                email,
+                nTel,
+                nivAutorisation
             })
+            console.log('User created successfully: ', response)
+
+            // Create token
+            const token = jwt.sign({ 
+                id: response._id, 
+                nCarteVitale: response.nCarteVitale 
+            }, 
+            JWT_SECRET
+            )
+
+            res.json({ 
+                status: 'ok',
+                data: token
+            })
+
+        } catch(error){
+            if(error.code === 11000){
+                return res.json({ 
+                    status: 'error', 
+                    error: 'Username already used'
+                })
+            }
+            throw error
         }
-        throw error
+    }
+
+    else{
+            const response = await User.updateOne({ nCarteVitale }, {$set: { password, nom, prenom, dNaissance, email, nTel, nivAutorisation } })
+            res.json({ status: 'ok' })
+            console.log('User changed successfully: ', response)
     }
 })
 
@@ -325,29 +343,66 @@ app.post('/getInfo', async (req, res) => {
         console.log(infoUser)
         let typeVaccin
         let dateVaccin
+        let urlQrCode
         if(infoUser.vaccins.length != 0){
             typeVaccin = infoUser.vaccins[infoUser.vaccins.length - 1].name
             dateVaccin = infoUser.vaccins[infoUser.vaccins.length - 1].date
+            urlQrCode = 'http://'+url+'/VerifPasse?'+infoUser.nCarteVitale
         } else {
             typeVaccin = ""
             dateVaccin = ""
+            urlQrCode = ""
         }
 
-        const qr = ToQRCode('http://'+url+'/VerifPasse?'+infoUser.nCarteVitale)
-        console.log(qr)
+        //const qr = ToQRCode('http://'+url+'/VerifPasse?'+infoUser.nCarteVitale)
+        //console.log(qr)
 
         const infoUserToSend = {
             name: infoUser.nom,
             prenom: infoUser.prenom,
             dNaissance: infoUser.dNaissance,
             typeVaccin: typeVaccin,
-            dateVaccin: dateVaccin
+            dateVaccin: dateVaccin,
+            urlQrCode: urlQrCode
         }
         console.log(infoUserToSend)
         res.json({ status: 'ok', data: infoUserToSend })
     }
     catch(error){
         res.json({ status: 'error', error: '(:'})
+    }
+})
+
+
+// DECLARE CAS CONTACT
+// Add Test User
+app.post('/CasContact', async (req, res) => {
+    // Get user input
+    const {nCarteVitale, nom, prenom, token } = req.body
+    console.log(nCarteVitale + ' iindex')
+    const user = await User.findOne({ nCarteVitale }).lean()
+    // Si pas de compte, création dans BDD
+    console.log(user)
+    if(!user){
+        // Try to create user in the database
+        const response = await User.create({
+            nCarteVitale: nCarteVitale,
+            password: "0",
+            nom: nom,
+            prenom: prenom,
+            dNaissance: "0",
+            email: "0",
+            nTel: "0",
+            nivAutorisation: 1
+        })
+        console.log('User created successfully: ', response)
+        res.json({ status: 'ok' })
+    }
+    else{
+        let date = new Date()
+        date = date.getFullYear()+"-"+date.getMonth()+1+"-"+date.getDate()
+        await User.updateOne({ nCarteVitale }, { $addToSet: {contacts: { date: date }}})
+        res.json({ status: 'ok' })
     }
 })
 

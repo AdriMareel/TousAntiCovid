@@ -24,12 +24,10 @@ const UserSchema = new mongoose.Schema(
             result:   { type: String }
         }],
 
-        /*
+        
         contacts:        [{
-            typeTest: { type: String },
-            date:     { type: String },
-            result:   { type: String }
-        }],*/
+            date:     { type: String }
+        }],
 
         // à ajouter : niveau d'autorisation
         
