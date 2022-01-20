@@ -130,14 +130,6 @@ async function changePassword(event){
     }
 }
 
-let disco = document.getElementById("disconnect")
-
-if(disco) disco.addEventListener("click", function() {
-
-    localStorage.removeItem('token');
-
-});
-
 let addVaccinForm = document.getElementById('addVaccinForm')
 if(addVaccinForm) addVaccinForm.addEventListener('submit', addVaccin)
 
