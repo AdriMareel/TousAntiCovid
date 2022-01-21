@@ -39,28 +39,13 @@
 	<h1 class="title" data-aos="fade">Mon compte ContreLeCovid</h1>
 
 	<div class="wrapper">
-		<div class="left-high" data-aos="fade-down" data-aos-duration="500">
+		<div class="left-high" data-aos="fade-down" data-aos-duration="500" id="test">
 			<img src="../images/medecin-homme-1.png">
 			<div class="text">
-				<h1>Pas de cas contact détecté dernièrement</h1>
-				<h2>Vous n'êtes pas déclaré à risque pour le moment. Votre schéma vaccinal est complet. Continuez à respecter les gestes barrière et faites vous tester si vous êtes déclaré cas contact. </h2>
-				<p style="font-weight: 100;">Mis à jour le : <p style="font-weight: 100;" id="maj"></p></p>
+				<h1 id="titre">Pas de cas contact détecté dernièrement</h1>
+				<h2 id="txt">Vous n'êtes pas déclaré à risque pour le moment. Votre schéma vaccinal est complet. Continuez à respecter les gestes barrière et faites vous tester si vous êtes déclaré cas contact. </h2>
+				<p style="font-weight: 100;" id="maj">Mis à jour le : </p>
 			</div>
-		</div>
-
-		<div class="right" data-aos="fade-left" data-aos-delay="1500">
-			<div>
-				<h1 id="persoNomPrenom">Nom et Prénom</h1>
-				<h2 id="persoDNaissance">Né le XX/XX/XXXX</h2>
-			</div>
-			<div>
-				<div id="qr_code"></div>
-				<h1 id="persoTypeVaccin">Pfizer-BioNTech</h1>
-				<h2 id="persoDVaccin">Injection le XX/XX/XXXX</h2>
-			</div>
-
-			<button id="cmd">Télécharger mon QR Code</button>
-			
 		</div>
 
 
@@ -83,18 +68,24 @@
 			<button class="notHover">COMING SOON</button>
 		</div>
 
+		<div class="right" data-aos="fade-left" data-aos-delay="1500">
+			<div>
+				<h1 id="persoNomPrenom">Nom et Prénom</h1>
+				<h2 id="persoDNaissance">Né le XX/XX/XXXX</h2>
+			</div>
+			<div>
+				<div id="qr_code"></div>
+				<h1 id="persoTypeVaccin">Pfizer-BioNTech</h1>
+				<h2 id="persoDVaccin">Injection le XX/XX/XXXX</h2>
+			</div>
+
+			<button id="cmd">Télécharger mon QR Code</button>w
+			
+		</div>
+
 
 	</div>
-	<script type="text/javascript">
-		let d = new Date();
-		let jours = d.getDate();
-		let mois = d.getMonth();
-		mois = mois + 1;
-		if (mois == 12) mois = 1;	 
-		let annee = d.getFullYear();
-		document.getElementById("maj").innerHTML = jours + "/" + mois + "/" + annee;
-	</script>
-	<script src="../js/getInfosUser.js"></script>
 	<script src="../js/main.js"></script>
+	<script src="../js/getInfosUser.js"></script>
 </body>
 </html>
