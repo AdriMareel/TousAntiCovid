@@ -39,7 +39,7 @@
 	<h1 class="title" data-aos="fade">Mon compte ContreLeCovid</h1>
 
 	<div class="wrapper">
-		<div class="left-high" data-aos="fade-down" data-aos-duration="500" id="test">
+		<div class="left-high" data-aos="fade-down" id="test">
 			<img src="../images/medecin-homme-1.png">
 			<div class="text">
 				<h1 id="titre">Pas de cas contact détecté dernièrement</h1>
@@ -49,7 +49,7 @@
 		</div>
 
 
-		<div class="left-bottom-1" data-aos="fade-up" data-aos-delay="500">
+		<div class="left-bottom-1 aos" data-aos="fade-up" data-aos-delay="250">
 			<div class="text">
 				<h1>Consulter l'historique de mes tests et vaccinations</h1>
 				<h2>Accès aux dates des différents tests PCR et vaccinations passés</h2>
@@ -59,7 +59,7 @@
 		</div>
 
 
-		<div class="left-bottom-2" data-aos="fade-up" data-aos-delay="1000">
+		<div class="left-bottom-2 aos" data-aos="fade-up" data-aos-delay="500">
 			<div class="text">
 				<h1>Se déclarer cas positif</h1>
 				<h2 style="text-align: center;">En cas d'autotest positif, vous devez vous isoler et vous faire tester 5 jours plus tard. En cas de test positif, continuer à s'isoler et faire à nouveau un test 2 jours après</h2>
@@ -68,7 +68,7 @@
 			<button class="notHover">COMING SOON</button>
 		</div>
 
-		<div class="right" data-aos="fade-left" data-aos-delay="1500">
+		<div class="right aos" data-aos="fade-left" data-aos-delay="750">
 			<div>
 				<h1 id="persoNomPrenom">Nom et Prénom</h1>
 				<h2 id="persoDNaissance">Né le XX/XX/XXXX</h2>
@@ -79,12 +79,20 @@
 				<h2 id="persoDVaccin">Injection le XX/XX/XXXX</h2>
 			</div>
 
-			<button id="cmd">Télécharger mon QR Code</button>w
+			<button id="cmd">Télécharger mon QR Code</button>
 			
 		</div>
 
 
 	</div>
+	<script>
+		if(window.innerWidth < 1000) {
+			document.getElementsByClassName("aos").forEach(element => {
+				element.setAttribute('data-aos-delay', 0)
+			});
+		}
+		
+	</script>
 	<script src="../js/main.js"></script>
 	<script src="../js/getInfosUser.js"></script>
 </body>
