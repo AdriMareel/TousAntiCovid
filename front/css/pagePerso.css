@@ -124,8 +124,12 @@
 	cursor: pointer;
 	text-align: center;
 	transform: scale(0.8);
-	pointer-events: none;
 	
+}
+
+.left-bottom-2 button:hover{
+	transform: scale(0.9);
+	transition: 0.5s ease;
 }
 
 .left-bottom-2 .text{
