@@ -19,17 +19,23 @@ async function getInfoHisto(){
 
     let i = 1;
 
-    vaccin.forEach(element =>  {
-        table.innerHTML += "<tr><th>"+element.name+"</th><th>"+i+"</th><th>"+element.date+"</th></tr>";
-        i++;
-    });
+    if(vaccin.length > 0){
+        vaccin.forEach(element =>  {
+            table.innerHTML += "<tr><th>"+element.name+"</th><th>"+i+"</th><th>"+element.date+"</th></tr>";
+            i++;
+        });
+    }
+
 
     console.log(test);
 
     i = 1;
-    test.forEach(element =>  {
-        table.innerHTML += "<tr><th>"+element.typeTest+"</th><th>"+element.result+"</th><th>"+element.date+"</th></tr>";
-        i++;
-    });
+
+    if(test.length > 0){
+        test.forEach(element =>  {
+            table.innerHTML += "<tr><th>"+element.typeTest+"</th><th>"+element.result+"</th><th>"+element.date+"</th></tr>";
+            i++;
+        });
+    }
 
 }
