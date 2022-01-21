@@ -81,16 +81,21 @@ async function getInfo(){
    // tabVaccin = ['21/12/2021', "21/06/2022"];
     let date_Vaccin= new Date();
     date_Vaccin.setDate(dateVaccin.substr(8,2)); date_Vaccin.setMonth(dateVaccin.substr(5,2)-1); date_Vaccin.setFullYear(dateVaccin.substr(0,4));
+    console.log((date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24))
 
     // Si vaccin invalide (Soit 1 dose; Soit 2 mais il y a + de 6mois)
-    if(((tabVaccin.length == 0 || tabVaccin.length == 1 || tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) > 183) && ((typeof date_user === 'undefined') || (date_actuel.getTime() - date_user.getTime()) / (1000 * 3600 * 24) > 183))&& (date_Vaccin.getTime()+7 < date_actuel.getTime()) ){
+    if(((tabVaccin.length == 0 || tabVaccin.length == 1 || tabVaccin.length == 2 && ((date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) > 183) || ((date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24)) < 7 ) && ((typeof date_user === 'undefined') || (date_actuel.getTime() - date_user.getTime()) / (1000 * 3600 * 24) > 183)) ){
+        console.log("ouiiiiiiiii")
         document.getElementById('titre').innerText = "Votre pass sanitaire n'est pas valide";
         if(tabVaccin.length == 0)
-            document.getElementById('txt').innerText = "Vous n'êtes pas vacciné";
+            {document.getElementById('txt').innerText = "Vous n'êtes pas vacciné";}
         if(tabVaccin.length == 1)
             document.getElementById('txt').innerText = "Vous n'avez qu'une dose, veuillez faire la deuxième.";
-        if(tabVaccin.length == 2)
+        if(tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) > 183)
             document.getElementById('txt').innerText = "Votre deuxième dose date de plus de 6 mois, veuillez faire votre dose de rappel.";
+        if(tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) < 7 ){
+            let difference = 7 - Math.abs(date_actuel.getDate() - date_Vaccin.getDate())
+            document.getElementById('txt').innerText = "Veuillez attendre encore "+ difference + " jours avant que votre pass soit valide.";}
 
         document.getElementById('test').style.background = "linear-gradient(to right, #DC281E, #F00000)";
     }
