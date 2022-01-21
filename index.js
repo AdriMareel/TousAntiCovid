@@ -316,11 +316,12 @@ app.post('/addTestUser', async (req, res) => {
             nivAutorisation: 1
         })
         console.log('User created successfully: ', response)
-        res.json({ status: 'ok' })
     }
     console.log(nCarteVitale, resultat, date, type)
 
     // Try to add test in the database
+    res.json({ status: 'ok' })
+    
     await User.updateOne({ nCarteVitale }, { $addToSet: { tests: { typeTest : type, date: date, result : resultat} } })
 
 })
