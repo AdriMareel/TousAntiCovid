@@ -83,7 +83,7 @@ async function getInfo(){
     date_Vaccin.setDate(dateVaccin.substr(8,2)); date_Vaccin.setMonth(dateVaccin.substr(5,2)-1); date_Vaccin.setFullYear(dateVaccin.substr(0,4));
 
     // Si vaccin invalide (Soit 1 dose; Soit 2 mais il y a + de 6mois)
-    if(((tabVaccin.length == 0 || tabVaccin.length == 1 || tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) > 183) && ((typeof date_user === 'undefined') || (date_actuel.getTime() - date_user.getTime()) / (1000 * 3600 * 24) > 183)) && (date_Vaccin.getTime()+7 > date_actuel.getTime())){
+    if(((tabVaccin.length == 0 || tabVaccin.length == 1 || tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) > 183) && ((typeof date_user === 'undefined') || (date_actuel.getTime() - date_user.getTime()) / (1000 * 3600 * 24) > 183))&& (date_Vaccin.getTime()+7 < date_actuel.getTime()) ){
         document.getElementById('titre').innerText = "Votre pass sanitaire n'est pas valide";
         if(tabVaccin.length == 0)
             document.getElementById('txt').innerText = "Vous n'êtes pas vacciné";
