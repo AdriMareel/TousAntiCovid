@@ -195,6 +195,7 @@ async function addVaccin(event){
 
     if(result.status === 'ok'){
         console.log('Ajout d\'un vaccin')
+        window.location.href = "../professionnel"
     } else {
         alert(result.error)
     }
@@ -227,6 +228,7 @@ async function addTest1(event){
 
     if(result.status === 'ok'){
         alert('Ajout d\'un test')
+        window.location.href = "../professionnel"
     } else {
         alert(result.error)
     }

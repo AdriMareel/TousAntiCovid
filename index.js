@@ -70,7 +70,7 @@ app.get('/VerifPasse', (req, res) => {
     res.sendFile(__dirname + '/front/html/VerifPasse.html')
 })
 
-app.get('/CasContact', (req, res) => {
+app.get('/professionnel/CasContact', (req, res) => {
     res.sendFile(__dirname + '/front/html/CasContact.html')
 })
 
@@ -416,7 +416,7 @@ app.post('/autorisation', async (req, res) => {
         }
     }
     else if(page == "CasContact"){
-        if(nivAuto < 1){
+        if(nivAuto < 2){
             res.json({ status: 'pas ok'})
         }
     }
