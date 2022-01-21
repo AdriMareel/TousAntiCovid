@@ -260,6 +260,7 @@ async function DeclareCasContact(event){
 
     if(result.status === 'ok'){
         console.log('Ajout de cas contact')
+        alert('Ajout de cas contact')
     } else {
         alert(result.error)
     }
