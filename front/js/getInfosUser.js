@@ -60,13 +60,13 @@ async function getInfo(){
     let date_actuel = new Date();
     const monthNames = ["janvier", "février", "mars", "avril", "mai", "juin",
         "juillet", "aout", "septembre", "octobre", "novembre", "decembre"];
-
+    let date_user = new Date(); // Date du test
+    date_user.setDate(tabTest[tabTest.length-1].date.substr(8,2)); date_user.setMonth(tabTest[tabTest.length-1].date.substr(5,2)-1); date_user.setFullYear(tabTest[tabTest.length-1].date.substr(0,4));
 // Si positif avec test
     if(tabTest.length != 0) {    
-        let date_user = new Date(); // Date du test
-        date_user.setDate(tabTest[tabTest.length-1].date.substr(8,2)); date_user.setMonth(tabTest[tabTest.length-1].date.substr(5,2)-1); date_user.setFullYear(tabTest[tabTest.length-1].date.substr(0,4));
+        
         let isolement = new Date(); isolement.setDate(10);
-        if((date_user.getDate() + isolement.getDate()) >= date_actuel.getDate()+1) {
+        if(((date_user.getDate() + isolement.getDate()) >= date_actuel.getDate()+1) &&(date_user.getTime() + isolement.getTime() > date_actuel.getTime())) {
             console.log(date_user.getDate() + isolement.getDate() );
 
             document.getElementById('titre').innerText = "Vous êtes positif depuis le " + date_user.getDate() + " " + monthNames[date_user.getMonth()] + " " + date_user.getFullYear();
