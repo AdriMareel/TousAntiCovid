@@ -62,17 +62,19 @@ async function getInfo(){
         "juillet", "aout", "septembre", "octobre", "novembre", "decembre"];
 
 // Si positif avec test
-    let date_user = new Date(); // Date du test
-    date_user.setDate(tabTest[tabTest.length-1].date.substr(8,2)); date_user.setMonth(tabTest[tabTest.length-1].date.substr(5,2)-1); date_user.setFullYear(tabTest[tabTest.length-1].date.substr(0,4));
-    let isolement = new Date(); isolement.setDate(10);
-    if((date_user.getDate() + isolement.getDate()) >= date_actuel.getDate()+1) {
-        console.log(date_user.getDate() + isolement.getDate() );
+    if(tabTest.length != 0) {    
+        let date_user = new Date(); // Date du test
+        date_user.setDate(tabTest[tabTest.length-1].date.substr(8,2)); date_user.setMonth(tabTest[tabTest.length-1].date.substr(5,2)-1); date_user.setFullYear(tabTest[tabTest.length-1].date.substr(0,4));
+        let isolement = new Date(); isolement.setDate(10);
+        if((date_user.getDate() + isolement.getDate()) >= date_actuel.getDate()+1) {
+            console.log(date_user.getDate() + isolement.getDate() );
 
-        document.getElementById('titre').innerText = "Vous êtes positif depuis le " + date_user.getDate() + " " + monthNames[date_user.getMonth()] + " " + date_user.getFullYear();
-        let difference = isolement.getDate() - Math.abs(date_actuel.getDate() - date_user.getDate())
-        document.getElementById('txt').innerText = "Veuillez rester isoler encore " + difference + " jours"
-        document.getElementById('test').style.background = "linear-gradient(to right, #DC281E, #F00000)";
+            document.getElementById('titre').innerText = "Vous êtes positif depuis le " + date_user.getDate() + " " + monthNames[date_user.getMonth()] + " " + date_user.getFullYear();
+            let difference = isolement.getDate() - Math.abs(date_actuel.getDate() - date_user.getDate())
+            document.getElementById('txt').innerText = "Veuillez rester isoler encore " + difference + " jours"
+            document.getElementById('test').style.background = "linear-gradient(to right, #DC281E, #F00000)";
 
+        }
     }
 // Si vaccin invalide
    // let tabVaccin = new Array();
@@ -93,21 +95,23 @@ async function getInfo(){
         document.getElementById('test').style.background = "linear-gradient(to right, #DC281E, #F00000)";
     }
 // Si Cas contact
-    let date_contact = new Date(); // Date du test
-    date_contact.setDate(tabContact[tabContact.length-1].date.substr(8,2)); date_contact.setMonth(tabContact[tabContact.length-1].date.substr(5,2)-1); date_contact.setFullYear(tabContact[tabContact.length-1].date.substr(0,4));
-    let isolementc = new Date(); isolementc.setDate(7);
-    // Si schéma vaccinale incomplet et pas eus le covid en 6mois : isolement 7 jours + test
-    if((date_actuel.getTime() - date_contact.getTime() )/ (1000 * 3600 * 24) < 7&& ((tabVaccin.length == 1 || (tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) > 183 ))) && ((typeof date_user === 'undefined') || ((date_actuel.getTime() - date_user.getTime()) / (1000 * 3600 * 24) > 183) )) {
-        document.getElementById('titre').innerText = "Vous avez été déclaré cas contact le " + date_contact.getDate() + " " + monthNames[date_contact.getMonth()] + " " + date_contact.getFullYear();
-        let difference = isolementc.getDate() - Math.abs(date_actuel.getDate() - date_contact.getDate())
-        document.getElementById('txt').innerText = "Votre schéma vaccinale est incomplet, veuillez rester isoler encore " + difference + " jours, puis réalisez un test de dépistage RT-PCR";
-        document.getElementById('test').style.background = "linear-gradient(to right, #f7b733, #fc4a1a)";
-    }
-    // Si schéma vaccinale complet ou a attrapé le covid dans les 6mois
-    if(((date_actuel.getTime() - date_contact.getTime() )/ (1000 * 3600 * 24) <7 ) && ((tabVaccin.length == 3 || (tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) < 183 )) || ((date_actuel.getTime() - date_user.getTime()) / (1000 * 3600 * 24) < 183) )) {
-        document.getElementById('titre').innerText = "Vous avez été déclaré cas contact le " + date_contact.getDate() + " " + monthNames[date_contact.getMonth()] + " " + date_contact.getFullYear();
-        document.getElementById('txt').innerText = "Veuillez réaliser un test de dépistage RT-PCR";
-        document.getElementById('test').style.background = "linear-gradient(to right, #f7b733, #fc4a1a)";
+    if(tabContact.length != 0) {    
+        let date_contact = new Date(); // Date du test
+        date_contact.setDate(tabContact[tabContact.length-1].date.substr(8,2)); date_contact.setMonth(tabContact[tabContact.length-1].date.substr(5,2)-1); date_contact.setFullYear(tabContact[tabContact.length-1].date.substr(0,4));
+        let isolementc = new Date(); isolementc.setDate(7);
+        // Si schéma vaccinale incomplet et pas eus le covid en 6mois : isolement 7 jours + test
+        if((date_actuel.getTime() - date_contact.getTime() )/ (1000 * 3600 * 24) < 7&& ((tabVaccin.length == 1 || (tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) > 183 ))) && ((typeof date_user === 'undefined') || ((date_actuel.getTime() - date_user.getTime()) / (1000 * 3600 * 24) > 183) )) {
+            document.getElementById('titre').innerText = "Vous avez été déclaré cas contact le " + date_contact.getDate() + " " + monthNames[date_contact.getMonth()] + " " + date_contact.getFullYear();
+            let difference = isolementc.getDate() - Math.abs(date_actuel.getDate() - date_contact.getDate())
+            document.getElementById('txt').innerText = "Votre schéma vaccinale est incomplet, veuillez rester isoler encore " + difference + " jours, puis réalisez un test de dépistage RT-PCR";
+            document.getElementById('test').style.background = "linear-gradient(to right, #f7b733, #fc4a1a)";
+        }
+        // Si schéma vaccinale complet ou a attrapé le covid dans les 6mois
+        if(((date_actuel.getTime() - date_contact.getTime() )/ (1000 * 3600 * 24) <7 ) && ((tabVaccin.length == 3 || (tabVaccin.length == 2 && (date_actuel.getTime() - date_Vaccin.getTime()) / (1000 * 3600 * 24) < 183 )) || ((date_actuel.getTime() - date_user.getTime()) / (1000 * 3600 * 24) < 183) )) {
+            document.getElementById('titre').innerText = "Vous avez été déclaré cas contact le " + date_contact.getDate() + " " + monthNames[date_contact.getMonth()] + " " + date_contact.getFullYear();
+            document.getElementById('txt').innerText = "Veuillez réaliser un test de dépistage RT-PCR";
+            document.getElementById('test').style.background = "linear-gradient(to right, #f7b733, #fc4a1a)";
+        }
     }
 
 
