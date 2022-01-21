@@ -230,9 +230,16 @@ app.post('/register', async (req, res) => {
     }
 
     else{
-            const response = await User.updateOne({ nCarteVitale }, {$set: { password, nom, prenom, dNaissance, email, nTel, nivAutorisation } })
-            res.json({ status: 'ok' })
-            console.log('User changed successfully: ', response)
+        if (user.password != "0") {
+            tabErreur.push('nCarteVitale')
+            return res.json({ 
+                status: 'error', 
+                error: tabErreur
+            })
+        }
+        const response = await User.updateOne({ nCarteVitale }, {$set: { password, nom, prenom, dNaissance, email, nTel, nivAutorisation } })
+        res.json({ status: 'ok' })
+        console.log('User changed successfully: ', response)
     }
 })
 
