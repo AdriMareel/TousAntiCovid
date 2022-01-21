@@ -76,3 +76,15 @@ h1{
 h2{
 	font-weight: 300;
 }
+
+@media screen and (max-width:1000px) {
+	nav{
+		height: 20vh;
+	}
+	ul{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100%;
+	}
+}
