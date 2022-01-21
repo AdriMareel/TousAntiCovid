@@ -37,3 +37,17 @@ input[type=submit]{
 	margin: 20px;
 	width: 150px;
 }
+
+@media screen and (max-width: 1000px) {
+	.main{
+		width: 80%;
+	}
+
+	input{
+		margin:20px;
+	}
+
+	select{
+		width: 80%;
+	}
+}
