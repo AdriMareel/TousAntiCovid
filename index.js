@@ -257,17 +257,25 @@ app.post('/vaccin', async (req, res) => {
     const user = await User.findOne({ nCarteVitale }).lean()
     console.log(user)
 
-    // If user exist
-    if (!user) {
-        return res.json({
-            status: 'error',
-            error: 'Invalid username/password'
+    if(!user){
+        // Try to create user in the database
+        const response = await User.create({
+            nCarteVitale: nCarteVitale,
+            password: "0",
+            nom: "0",
+            prenom: "0",
+            dNaissance: "0",
+            email: "0",
+            nTel: "0",
+            nivAutorisation: 1
         })
+        console.log('User created successfully: ', response)
+        res.json({ status: 'ok' })
     }
-
 
     await User.updateOne({ nCarteVitale }, { $addToSet: { vaccins: { name : name, date: newdate} } })
     res.json({ status: 'ok' })
+    // Try to add vaccin in the database
 })
 
 // Add Test User
@@ -290,18 +298,24 @@ app.post('/addTestUser', async (req, res) => {
     const user = await User.findOne({ nCarteVitale }).lean()
     console.log(user)
 
-    // If user exist
-    if (!user) {
-        return res.json({
-            status: 'error',
-            error: 'Vous n\'êtes pas connecté.e'
+    if(!user){
+        // Try to create user in the database
+        const response = await User.create({
+            nCarteVitale: nCarteVitale,
+            password: "0",
+            nom: "0",
+            prenom: "0",
+            dNaissance: "0",
+            email: "0",
+            nTel: "0",
+            nivAutorisation: 1
         })
+        console.log('User created successfully: ', response)
+        res.json({ status: 'ok' })
     }
-
-
     console.log(nCarteVitale, resultat, date, type)
 
-    // Try to add vaccin in the database
+    // Try to add test in the database
     await User.updateOne({ nCarteVitale }, { $addToSet: { tests: { typeTest : type, date: date, result : resultat} } })
     res.json({ status: 'ok' })
 
@@ -524,12 +538,11 @@ app.post('/CasContact', async (req, res) => {
         console.log('User created successfully: ', response)
         res.json({ status: 'ok' })
     }
-    else{
-        let date = new Date()
-        date = date.getFullYear()+"-"+date.getMonth()+1+"-"+date.getDate()
-        await User.updateOne({ nCarteVitale }, { $addToSet: {contacts: { date: date }}})
-        res.json({ status: 'ok' })
-    }
+
+    let date = new Date()
+    date = date.getFullYear()+"-"+date.getMonth()+1+"-"+date.getDate()
+    await User.updateOne({ nCarteVitale }, { $addToSet: {contacts: { date: date }}})
+    res.json({ status: 'ok' })
 })
 
 app.listen(3000, () => {
