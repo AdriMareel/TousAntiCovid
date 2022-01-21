@@ -11,9 +11,9 @@ const ToQRCode = require('./back/modules/toQRCode.js')
 
 const JWT_SECRET = 'zekljazifjziogjaioeh8O34U_hhozreuhuhu_8_çt_7T8gf'
 
-const mongodb = 'mongodb+srv://admin:admin@datacovid.gqdpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 //const mongodb = 'mongodb+srv://admin:admin@datacovid.gqdpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-//const mongodb = 'mongodb://Admin:Admin123@192.168.252.87:27017/covid_data?authSource=admin';
+//const mongodb = 'mongodb+srv://admin:admin@datacovid.gqdpj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const mongodb = 'mongodb://Admin:Admin123@10.224.3.51:27017/covid_data?authSource=admin';
 mongoose.connect(mongodb, { useNewUrlParser: true, useUnifiedTopology: true })
     //.then((result) => app.listen(3000))
     .then((result) => console.log("connected to database"))

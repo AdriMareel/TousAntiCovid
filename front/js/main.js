@@ -24,7 +24,6 @@ async function autorisation(){
     if(result.status === 'pas ok'){
         // passe pas
         window.location.href = "../../"
-        alert('vous n\'avez pas accès à cette zone !')
     }
 }
 
