@@ -344,15 +344,18 @@ app.post('/verify', async (req, res) => {
         pass = true
         if(user.tests.length != 0){
             const dateTest = Date.parse(user.tests[user.tests.length - 1].date)
-            if(user.tests[user.tests.length - 1].result == "positif" && ((dateNow - dateTest) / (3600*24*1000)) < 14){
+            if(user.tests[user.tests.length - 1].result == "positif" && ((dateNow - dateTest) / (3600*24*1000)) < 10){
                 pass = false
             }
         }
 
-        if(user.vaccins.length != 0){
+        if(user.vaccins.length > 1){
             const dateVaccin = Date.parse(user.vaccins[user.vaccins.length - 1].date)
 
-            if((dateNow - dateVaccin)/(3600*24*1000) < 14 || (dateNow - dateVaccin)/(3600*24*1000) > 7*31){
+            if(user.vaccins.length != 3 && (dateNow - dateVaccin)/(3600*24*1000) > 6*31){
+                pass = false                
+            }
+            if((dateNow - dateVaccin)/(3600*24*1000) < 7){
                 pass = false
             }
         } else {
