@@ -209,6 +209,7 @@ async function addTest1(event){
     const nCarteVitale = document.getElementById('nCarteVitale').value
     const resultat = document.getElementById('resultat').value
     const type = document.getElementById('type').value
+    const date = document.getElementById('date').value
 
     const result = await fetch('/addTestUser', {
         method: 'POST',
@@ -219,6 +220,7 @@ async function addTest1(event){
             nCarteVitale: nCarteVitale,
             resultat: resultat,
             type: type,
+            date: date,
             token: localStorage.getItem('token')
         })
     }).then((res) => res.json())
