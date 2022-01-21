@@ -226,7 +226,7 @@ async function addTest1(event){
     }).then((res) => res.json())
 
     if(result.status === 'ok'){
-        console.log('Ajout d\'un test')
+        alert('Ajout d\'un test')
     } else {
         alert(result.error)
     }
