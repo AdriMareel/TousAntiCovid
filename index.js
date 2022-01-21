@@ -311,29 +311,47 @@ app.post('/verify', async (req, res) => {
     const { token, nCarteVitale } = req.body
     const user = await User.findOne({ nCarteVitale }).lean()
     //console.log(nCarteVitale)
+    let pass
+    let nom = ""
+    let prenom = ""
     if(user) {
-        console.log(user.vaccins.length)
+        nom = user.nom
+        prenom = user.prenom
+
+        const date = new Date()
+        console.log(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate())
+        const dateNow = Date.parse(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate())
+
+        pass = true
+        if(user.tests.length != 0){
+            const dateTest = Date.parse(user.tests[user.tests.length - 1].date)
+            if(user.tests[user.tests.length - 1].result == "positif" && ((dateNow - dateTest) / (3600*24*1000)) < 14){
+                pass = false
+            }
+        }
+
         if(user.vaccins.length != 0){
             const dateVaccin = Date.parse(user.vaccins[user.vaccins.length - 1].date)
-            const date = new Date()
-            console.log(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate())
-            const dateNow = Date.parse(date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate())
 
-            console.log(dateNow + ' = date maintenant')
-            console.log(dateVaccin + ' = date dernier vaccin')
-            console.log((dateNow - dateVaccin)/(3600*24*1000))
             if((dateNow - dateVaccin)/(3600*24*1000) < 14 || (dateNow - dateVaccin)/(3600*24*1000) > 7*31){
-                res.json({ status: 'pas ok' })
-            } else {
-                res.json({ status: 'ok' })
+                pass = false
             }
         } else {
-            res.json({ status: 'pas ok' })
+            pass = false
         }
     }
     if(!user) {
-        res.json({ status: 'inconnu' })
-    } 
+        pass = null
+    }
+
+    let dataToSend = {
+        pass: pass,
+        nom: nom,
+        prenom: prenom
+    }
+
+    console.log(pass)
+    res.json({ status: 'ok', data: dataToSend })
 })
 
 app.post('/autorisation', async (req, res) => {
@@ -375,6 +393,11 @@ app.post('/autorisation', async (req, res) => {
     }
     else if(page == "vaccin"){
         if(nivAuto < 2){
+            res.json({ status: 'pas ok'})
+        }
+    }
+    else if(page == "CasContact"){
+        if(nivAuto < 1){
             res.json({ status: 'pas ok'})
         }
     }

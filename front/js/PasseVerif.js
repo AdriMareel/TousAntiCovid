@@ -16,16 +16,21 @@ async function verif(){
         })
     }).then((res) => res.json())
 
-    if(result.status === 'ok'){
+    if(result.data.pass === true){
         // passe
-        alert('ok')
+        //alert('passe')
+        document.getElementsByClassName('bloc1')[0].style.background = 'rgba(0, 255, 0, 0.75)'
+        document.getElementById('nomPrenom').innerHTML = result.data.prenom + ' ' + result.data.nom
     } 
-    if(result.status === 'pas ok'){
+    if(result.data.pass === false){
         // passe pas
-        alert('pas ok')
+        //alert('passe pas')
+        document.getElementsByClassName('bloc1')[0].style.background = 'rgba(255, 0, 0, 0.75)'
+        document.getElementById('nomPrenom').innerHTML = result.data.prenom + '<br>' + result.data.nom
     }
-    if(result.status === 'inconnu'){
+    if(result.data.pass === null){
         // inconnu
-        alert('inconnu')
+        document.getElementsByClassName('bloc1')[0].style.background = 'rgba(255, 0, 0, 0.75)'
+        document.getElementById('nomPrenom').innerHTML = 'Non reconnu'
     }
 }
