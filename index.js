@@ -322,7 +322,6 @@ app.post('/addTestUser', async (req, res) => {
 
     // Try to add test in the database
     await User.updateOne({ nCarteVitale }, { $addToSet: { tests: { typeTest : type, date: date, result : resultat} } })
-    res.json({ status: 'ok' })
 
 })
 
